@@ -1,0 +1,646 @@
+html,
+body, 
+#root,
+.App {
+	width: 100%;
+	height: 100%;
+}
+img {
+	width: 100%;
+	height: 100%;
+}
+.centered-flex-row {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: auto;
+	height: auto;
+}
+
+.spinner-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	height: 200px;
+	width: 200px;
+
+	animation: App-logo-spin infinite 20s linear;
+}
+
+.loading-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%
+}
+
+.flex-centered-column {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	width: auto;
+	height: auto;
+}
+
+/*
+.player-avatar-container {
+	position: relative;
+
+	height: 100px;
+	width: 100px;
+	border-radius: 100px;
+}
+
+
+
+
+*/
+
+/* Playing Card Styles */
+
+.playing-card {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	background-color: white;
+	font-size: 1em;
+
+	height: 50px;
+	width: 35px;
+	margin: 0 1px;
+	border: 1px solid gray;
+
+	opacity: 0;
+	animation: fade-in-up 0.5s;
+	animation-fill-mode: both;
+}
+.robotcard {
+	background-color: #890808;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='12' viewBox='0 0 20 12'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='charlie-brown' fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M9.8 12L0 2.2V.8l10 10 10-10v1.4L10.2 12h-.4zm-4 0L0 6.2V4.8L7.2 12H5.8zm8.4 0L20 6.2V4.8L12.8 12h1.4zM9.8 0l.2.2.2-.2h-.4zm-4 0L10 4.2 14.2 0h-1.4L10 2.8 7.2 0H5.8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.folded {
+	animation: fade-in-out 0.5s;
+	animation-fill-mode: both;
+}
+
+/* Card Animations */
+
+@keyframes fade-in-out {
+	0% {
+		opacity: 1;
+		transform: translateY(0%);
+	}
+	100% {
+		opacity: 0;
+		transform: translateY(-100%)
+	}
+}
+
+@keyframes fade-in-up {
+	0% {
+		opacity: 0;
+		transform: translateY(100%)
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0%);
+	}
+}
+
+/* Action Status Notification Base Styles & Transitions*/
+
+.actionBox {
+	/* background: rgba(0,0,0,0.85); */ 
+	color: yellow;
+	text-shadow: 2px 2px 10px rgba(0,0,0,1);
+	padding: 12px;
+	
+	position: absolute;
+	top: -30px;
+	width: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 100;
+	display: none;
+	justify-content: center;
+}
+
+.transitionable-actionBox-enter {
+	display: flex;
+	opacity: 1;
+	transform: translateX(-50%);
+}
+
+.transitionable-actionBox-enter-active {
+	display: flex;
+	opacity: 1;
+	transition: opacity 1250ms ease-in-out;
+	transform: translateX(-50%);
+}
+.transitionable-actionBox-enter-done {
+	display: flex;
+}
+
+.transitionable-actionBox-exit {
+	display: flex;
+	opacity: 1;
+	transform: translateX(-50%);
+}
+
+.transitionable-actionBox-exit-active {
+	display: flex;
+	opacity: 0;
+	transform: translateX(-50%) translateY(-55px);
+	transition: opacity 1250ms ease-in-out, transform 1250ms linear;
+}
+
+
+
+
+/* GAME BOARD */
+
+.poker-app--background {
+	position: relative;
+	overflow: auto;
+	width: 100%;
+	height: 100%;
+}
+ .p0, .p1, .p2, .p3, .p4 {
+ 	position: absolute;
+
+ 	display: flex;
+ 	align-items: center;
+ 	flex-direction: column;
+
+	/* 
+ 	width: 175px;
+ 	height: 200px;
+	
+	 border-radius: 200px;
+	 */
+ }
+
+ .p0 {
+ 	bottom: 8.262%; /* 41px/962px */ /* ADD 2PX TO ALL VETICAL CALCULATIONS - MOVED PLAYERBOARD UP FOR CARD SPACE  (WAS 4.262%)*/
+	left: 50%;
+	transform: translateX(-50%) ;
+	 /* left: 43.75%; /* 50% - 6.25% (87.5px/1400px) */ 
+ }
+ .p1 {
+ 	bottom: 8.262%;
+ 	left: 24.107143%; /* 50% - 25.892857% (362.5px/1400px) */
+ }
+ .p2 {
+ 	bottom: 21.1518%; /* 165px / 962px */
+ 	left: 6%; /* 50% - 44% (616px/1400px) */ 
+ }
+
+ .p4 {
+ 	bottom: 8.262%;
+ 	right: 24.107143%;
+ }
+ .p3 {
+ 	bottom: 21.1518%;
+ 	right: 6%;
+ }
+
+ .dealer-chip-icon-container {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+
+	height: 25px;
+	width: 25px;
+	z-index: 100;
+}
+
+ .community-card-container {
+ 	position: absolute;
+ 	display: flex;
+ 	justify-content: center;
+
+ 	top: calc(39.5% - 60px);
+ 	left: calc(50% - 100px);
+ 	
+ 	display: flex;
+
+ 	width: 200px;
+ 	height: 60px;
+
+ }
+
+ .showdown-container--community-cards {
+	display: flex;
+	height: 52px;
+	margin-bottom: 1rem;
+ }
+
+ .cardbabmock {
+ 	width: 85px;
+ 	margin-left: 5px;
+ 	height: 100px;
+ 	background-color: black;
+ }
+
+ .game-action-bar {
+ 	position: absolute;
+
+ 	display: flex;
+ 	align-items: center;
+ 	justify-content: space-around;
+
+ 	left: 0;
+ 	right: 0;
+ 	top: 0;
+ 	height: 50px;
+ 	background-color: rgba(0,0,0,0.85);
+ 	color: white;
+ }
+
+ .abscard {
+ 	position: absolute;
+ 	top: -80px;
+ }
+
+ .shrinkwrap {
+ 	transform: scale(0.3);
+ }
+
+ .action-buttons {
+ 	display: flex;
+ 	align-items: center;
+ 	justify-content: space-around;
+ 	width: auto;
+ 	height: 100%;
+ }
+
+ .slider-boi {
+ 	display: flex;
+ 	align-items: center;
+ 	justify-content: flex-end;
+ 	width: 55%;
+ 	height: 100%;
+ }
+
+ .action-button {
+ 	height: 45px;
+ 	width: 125px;
+ 	margin: 0 12px;
+ 	border-radius: 500px;
+ 	background-color: rgba(242, 242, 242, 0.80);
+ 	font-size: 28px;
+ 	color: white;
+ 	background-color: #2adb2a;
+ 	border: 3px solid white;
+ 	outline: none;
+ 	transition: background-color 0.4s ease-out, color 0.4s ease-out;
+ }
+ .action-button:hover {
+ 	cursor: pointer;
+ 	background-color: #ffc935;
+	color: #f56132;
+ }
+ .fold-button {
+ 	height: 45px;
+ 	width: 125px;
+ 	margin: 0 12px;
+ 	background-color: rgba(255, 80, 80, 0.8);
+ 	font-size: 28px;
+ 	color: white;
+ 	outline: none;
+ 	z-index: 100;
+ 	border-radius: 500px;
+ 	border: 3px solid white;
+ 	transition: background-color 0.4s ease-out, color 0.4s ease-out;
+ }
+ .fold-button:hover {
+ 	background-color: rgb(255, 0, 0);
+ 	cursor: pointer;
+ }
+
+ .player-info-box {
+ 	display: flex;
+ 	flex-direction: column;
+ 	align-items: center;
+ 	color: white;
+ 	background-color: rgba(0,0,0,0.35);
+ 	font-size: 0.87em;
+ 	z-index: 99;
+
+ 	padding: 12px;
+ 	margin-top: 12px;
+ }
+
+.player-info-box h5 {
+	margin: 4px 0;
+}
+
+ .slider-handles > div > div {
+	 color: white !important;
+	 font-size: 24px !important;
+ }
+
+ .showdown-row {
+ 	display: flex;
+ 	flex-direction: column;
+ 	align-items: center;
+ 	align-items: center;
+
+ 	margin-bottom: 15px;
+ }
+
+.pot-container {
+	position: absolute;
+	top: 40%;
+	left: calc(50% - 22.5px);
+	color: white;
+}
+
+/*
+.table-test {
+	position: absolute;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 765px;
+	height: auto;
+	z-index: 500;
+}
+
+
+@media screen and (orientation: portrait) {
+	.poker-players {
+		transform: rotate(90deg);
+	}
+}
+*/
+
+.player-entity--container {
+	display: flex;
+	height: auto;
+	width: auto;
+}
+.player-entity--wrapper {
+	position: absolute;
+	/* background-color: rgba(0,0,0,0.35); */
+	border-top-left-radius: 200px;
+	border-bottom-left-radius: 200px;
+}
+.player-avatar--container {
+	position: relative;
+	height: 100px;
+	width: 100px;
+	border-radius: 100px;
+	padding: 6px 6px 6px 6px
+}
+
+.player-info--name {
+	display: flex;
+	justify-content: center;
+	border-radius: 25px;
+	position: absolute;
+	bottom: -12px;
+	padding: 4px 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%;
+	color: whitesmoke;
+	background-color: rgba(0,0,0,0.86);
+	font-size: 12px;
+}
+
+.player-avatar--image {
+	border-radius: 500px;
+	border: 1px solid whitesmoke;
+	background-color: rgba(176, 14, 14, 0.22);
+	transition: border 0.1s ease-out;
+}
+
+.activePlayer {
+	border: 2px solid #00ff25;
+}
+
+.player-info--wrapper {
+	width: 100px;
+	color: white;
+}
+
+.player-info--stash--container,
+.player-info--bet--container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	margin-top: 10px;
+	text-shadow: 2px 2px 18px rgba(0,0,0,0.95);
+}
+
+
+.player-info--stash--image,
+.player-info--bet--image {
+	height: 25px;
+	width: 25px;
+}
+
+.poker-table--wrapper {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background-image: radial-gradient(#8B0000 60%, #6A0000 82%);
+}
+
+.poker-table--container {
+	position: absolute;
+}
+
+.showdown-container--wrapper {
+	display: flex;
+   	flex-direction: column;
+	align-items: center;
+	position: absolute;
+	overflow: auto;
+	left: 0;
+	right: 0;
+	top: 0;
+	background-color: rgba(0,0,0,0.85);
+	color: white;
+	height: auto;
+	min-height: 100%;
+	width: 100%;
+	z-index: 100;
+}
+
+.showdown-container--title {
+	font-size: 28px;
+	margin: 0 6px;
+}
+
+.showdown-container--community-card-label {
+	margin: 12px 0;
+}
+
+.showdown-container--messages {
+	text-align: left;
+}
+
+.showdown-player--entity {
+	display: flex;
+	align-items: center;
+	margin-bottom: 8px;
+	height: 112px;
+}
+
+
+.showdownPlayer--data,
+.showdownPlayer--privateCards  {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.showdown-player--besthand--container {
+	margin-left: 12px;
+}
+
+.showdown-player--entity .player-avatar--container {
+	margin-right: 12px;
+}
+
+.showdown-player--entity .player-info--name {
+	border: 1px solid white;
+}
+
+.showdown-player--besthand--cards {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: auto;
+	height: auto;
+}
+
+.player-entity--container {
+	display: flex;
+}
+
+.showdown--handrank {
+	width: 115px;
+	text-align: center;
+	color: #FDBA0A;
+	font-size: 13px;
+}
+
+.message--earnings {
+	color: #FDBA0A;
+}
+
+.message--rank {
+	color: #714794;
+}
+.showdownPlayer--cards {
+	display: flex;
+}
+
+.showdownPlayer--earnings {
+	text-align: center;
+}
+
+.showdownPlayer--earnings.positive,
+.message--player {
+	color: #4EB04E;
+}
+
+.showdownPlayer--earnings.negative {
+	color: #97241B;
+}
+
+.poker-table--table-image {
+	width: 100%;
+	height: 100%;
+}
+
+.showdown--nextRound--button {
+	background-color: #6C0C02;
+	border: 1px solid white;
+	color: salmon;
+	padding: 6px;
+	line-height: 1;
+}
+.showdown--nextRound--button:hover {
+	cursor: pointer;
+}
+
+@media (min-width: 1080px) {
+	.poker-table--container {
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: 1080px;
+		height: 590px;
+	}
+	
+}
+
+
+@media (max-width: 1079px) {
+	.poker-table--container {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 100%;
+		height: auto;
+	}
+	.player-info--bet--container {
+		position: absolute;
+		top: -20px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 100%;
+		color: whitesmoke;
+		border-radius: 100px;
+		background-color: rgba(0,0,0,10);
+		border: 1px solid white;
+	}
+	.pot-container {
+		top: 55px;
+		right: 20%;
+		left: unset;
+	}
+}
+
+@media (max-width: 736px) {
+	.player-avatar--container {
+		height: 75px;
+		width: 75px;
+	}	
+	.player-info--name {
+		width: 100px;
+	}
+}
+
+@media (max-width: 552px) {
+	.poker-table--container {
+		transform: rotate(90deg);
+	}
+}
+/*
+@media (min-width: 1280px) {
+	.poker-table--container {
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 1280px;
+		height: auto;
+	}
+	
+	.poker-table--table-image {
+		width: 100%;
+		height: 100%;
+	}	
+}
+
+*/

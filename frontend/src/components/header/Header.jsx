@@ -4,7 +4,6 @@ import { Button } from "../ui/button";
 import { useHistory, useLocation } from "react-router-dom";
 
 export default function Header() {
-  const history = useHistory();
   const location = useLocation();
 
   const scrollToSection = (id) => {

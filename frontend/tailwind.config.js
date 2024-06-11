@@ -19,6 +19,7 @@ module.exports = {
     extend: {
       colors: {
         gold: "#FFCC00",
+        tblack: "#09090b",
       },
       keyframes: {
         "accordion-down": {

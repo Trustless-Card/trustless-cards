@@ -256,9 +256,9 @@ img {
 
  	left: 0;
  	right: 0;
- 	top: 0;
+ 	bottom: 0;
  	height: 50px;
- 	background-color: rgba(0,0,0,0.85);
+    background-color: #09090b;
  	color: white;
  }
 
@@ -283,7 +283,7 @@ img {
  	display: flex;
  	align-items: center;
  	justify-content: flex-end;
- 	width: 55%;
+ 	width: 20%;
  	height: 100%;
  }
 
@@ -451,7 +451,7 @@ img {
 	position: relative;
 	width: 100%;
 	height: 100%;
-	background-image: radial-gradient(#171E4D 60%, #171E4D 82%);
+	background-image: radial-gradient(#09090b 60%, #09090b 82%);
 }
 
 .poker-table--container {

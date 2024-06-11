@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import { Image } from "lucide-react";
-import { Button } from "../ui/button"; // Assuma que este é um componente customizado
-import { ChevronDown, ChevronRight, PlayIcon, Sparkles } from "lucide-react"; // Ícones
+import React from "react";
+import { Button } from "../ui/button";
+import { ChevronDown, ChevronRight } from "lucide-react";
 
 export default function HeroSection() {
-
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -15,9 +13,16 @@ export default function HeroSection() {
       <div className="relative z-10">
         <div className="text-center pt-16">
           <h1 className="font-medium text-5xl lg:text-7xl text-neutral-400">
-            Fair Play, Real Wins with <br />{" "}
+            Fair Play, Real{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
+              Wins
+            </span>{" "}
+            with <br />{" "}
             <span className="font-bold text-white shadow-white drop-shadow-lg">
-              Cartesi Rollups<span className="text-green-500">.</span>
+              Cartesi Rollups
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
+                .
+              </span>
             </span>
           </h1>
           <p className="lg:text-xl leading-relaxed text-neutral-300 mt-4 p-10 max-w-screen-lg mx-auto">
@@ -25,26 +30,20 @@ export default function HeroSection() {
             cutting-edge, decentralized platform, ensuring unparalleled
             transparency and fairness with every shuffle.
             <span className="font-semibold">
-                Powered by Blockchain technology, and enhanced with direct
-              crypto wallet integrations for secure and immediate transactions
+              Powered by Blockchain technology, and enhanced with direct crypto
+              wallet integrations for secure and immediate transactions
             </span>
           </p>
-          <div className="flex flex-wrap justify-center mb-20 md:mb-0 mx-4 gap-10">
-            <Button onClick={() => scrollToSection("map")}>
-              PLAY
-              <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
         </div>
       </div>
-      <div>
-        <ChevronDown
-          className="mx-auto hidden md:block p-2 md:p-0 md:mt-10 "
-          color="#ccc"
-          size={70}
-          strokeWidth={1}
-        />
+      <div className="relative mt-32">
+        <svg className="arrows">
+          <path className="a1" d="M0 0 L30 32 L60 0"></path>
+          <path className="a2" d="M0 20 L30 52 L60 20"></path>
+          <path className="a3" d="M0 40 L30 72 L60 40"></path>
+        </svg>
       </div>
     </div>
   );
 }
+

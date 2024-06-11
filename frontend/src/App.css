@@ -38,5 +38,32 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background-color: #171E4D;
 }
+
+@layer base {
+  :root, .dark {
+    --background: #000;
+    --foreground: #fff;
+    --card: #1c1917;
+    --card-foreground: #f2f2f2;
+    --popover: #171717;
+    --popover-foreground: #f2f2f2;
+    --primary: #22c55e;
+    --primary-foreground: #052e16;
+    --secondary: #27272a;
+    --secondary-foreground: #fafafa;
+    --muted: #262626;
+    --muted-foreground: #a1a1aa;
+    --accent: #292524;
+    --accent-foreground: ##fafafa;
+    --destructive: #7f1d1d;
+    --destructive-foreground: #fef2f2;
+    --border: #27272a;
+    --input: #27272a;
+    --ring: #15803d;
+    --radius: 1rem;
+  }
+}
+
 

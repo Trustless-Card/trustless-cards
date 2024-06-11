@@ -1,9 +1,16 @@
 import React from "react";
-import logo from "../../logo.svg"; // Make sure static assets are correctly handled
+import logo from "../../logo.svg"; // Certifique-se de que os ativos estáticos estão corretamente configurados
 import { Button } from "../ui/button";
 import { useHistory, useLocation } from "react-router-dom";
+import useWallet from "../../hooks/useWallet";
+
+
 
 export default function Header() {
+  const { walletAddress, walletBalance, isConnected, connectWallet } =
+    useWallet();
+
+  const history = useHistory();
   const location = useLocation();
 
   const scrollToSection = (id) => {

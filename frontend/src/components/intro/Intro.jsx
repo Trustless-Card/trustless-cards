@@ -26,12 +26,14 @@ export default function HeroSection() {
             </span>
           </h1>
           <p className="lg:text-xl leading-relaxed text-neutral-300 mt-4 p-10 max-w-screen-lg mx-auto">
-            Trustless Cards transforms the online card gaming industry with a
-            cutting-edge, decentralized platform, ensuring unparalleled
-            transparency and fairness with every shuffle.
-            <span className="font-semibold">
+            Unlock Success with Trustless Cards! Our cutting-edge, decentralized
+            platform revolutionizes online card gaming, guaranteeing
+            transparency and fairness with every shuffle and spin!
+            <br />
+            <br />
+            <span className="font-semibold text-center p-2">
               Powered by Blockchain technology, and enhanced with direct crypto
-              wallet integrations for secure and immediate transactions
+              wallet integrations for secure and immediate transactions!
             </span>
           </p>
         </div>
@@ -46,4 +48,3 @@ export default function HeroSection() {
     </div>
   );
 }
-

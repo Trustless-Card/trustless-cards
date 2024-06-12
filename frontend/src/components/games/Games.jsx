@@ -28,7 +28,7 @@ export default function Games() {
             description:
               "Master the art of bluffing in the most strategic card game ever. Poker combines psychology, probability, and luck to create an unforgettable experience.",
             icon: <CgCardSpades strokeWidth={1.5} size={40} color="white" />,
-            footer: "Learn the rules and hand rankings",
+            footer: "",
             link: "/poker",
           },
           {
@@ -38,7 +38,7 @@ export default function Games() {
             content:
               "Perfect for all skill levels, from beginners to seasoned pros.",
             icon: <GiCardJoker strokeWidth={1.5} size={40} color="white" />,
-            footer: "Explore strategies to improve your game",
+            footer: "",
             link: "/blackjack",
           },
           {
@@ -48,7 +48,7 @@ export default function Games() {
             content:
               "Place your bets on numbers, colors, or sets and watch the wheel spin.",
             icon: <TbClover strokeWidth={1.5} size={40} color="white" />,
-            footer: "Discover various betting systems",
+            footer: "",
             link: "/roulette",
           },
         ].map((game, index) => (
@@ -59,13 +59,22 @@ export default function Games() {
           >
             <div className="absolute inset-0 transition-all duration-300 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 opacity-0 blur-sm group-hover:opacity-100 group-hover:blur-md rounded-lg"></div>
             <Card className="bg-zinc-950 dark:bg-white border-gold h-[350px] relative z-10">
-              <CardHeader className="">
-                <div className="w-20 h-20 rounded-full bg-[#FFFFF] border-2 border-[#161d15] flex justify-center items-center">
-                  {game.icon}
+              <CardHeader className="text-center ">
+                <div className="flex flex-col justify-center items-center gap-4">
+                  {" "}
+                  {/* Added 'items-center' */}
+                  <div className="w-20 h-20 rounded-full bg-[#FFFFF] border-2 border-[#161d15] flex justify-center items-center">
+                    {game.icon}
+                  </div>
+                  <CardTitle className="text-white pb-3">
+                    {" "}
+                    {/* Added 'mt-[-2]' */}
+                    {game.title}
+                  </CardTitle>
                 </div>
-                <CardTitle className="text-white">{game.title}</CardTitle>
-                <div></div>
-                <CardDescription>{game.description}</CardDescription>
+                <CardDescription className="text-neutral-300">
+                  {game.description}
+                </CardDescription>
               </CardHeader>
               {game.content && (
                 <CardContent>
@@ -76,8 +85,8 @@ export default function Games() {
                 <p>{game.footer}</p>
               </CardFooter>
               <Button
-                variant="dafault"
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 transition duration-200 ease-in-out hover:scale-125 active:scale-100"
+                variant="default"
+                className="absolute bottom-10 left-1/2 -translate-x-1/2 transition duration-200 ease-in-out hover:scale-110 active:scale-100 shadow hover:shadow-sm hover:shadow-white"
               >
                 <p className="text-2xl font-bold bg-gradient-to-r from-[#9a5517] via-[#ffd98e] to-[#873a1a] bg-clip-text text-transparent">
                   Play

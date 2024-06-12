@@ -1,12 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import logo from "../../assets/logo.png";
-import { Image } from "lucide-react";
 import { Link } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-indigo-950 to-indigo-900 bg-gradient-to-t from-indigo-950 to-black text-white">
+    <footer className="bg-gradient-to-t from-indigo-950 to-black text-white">
       <div className="pt-10 flex justify-center mb-5">
         <img src={logo} alt="logo" className="h-20 w-20" />
       </div>

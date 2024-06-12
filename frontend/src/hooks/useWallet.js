@@ -10,6 +10,7 @@ export default function useWallet() {
   useEffect(() => {
     if (typeof window.ethereum !== "undefined") {
       window.ethereum.on("accountsChanged", handleAccountsChanged);
+      checkIfWalletIsConnected();
     }
     return () => {
       if (typeof window.ethereum !== "undefined") {
@@ -69,22 +70,36 @@ export default function useWallet() {
     await requestAccount();
   };
 
-//   const sendWalletDataToBackend = async (address, balance) => {
-//     try {
-//       const response = await fetch("http://localhost:8080/api/wallet-data", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ address, balance }),
-//       });
-//       if (!response.ok) {
-//         throw new Error("Failed to send wallet data to backend");
-//       }
-//     } catch (error) {
-//       console.error("Error sending wallet data to backend:", error);
-//     }
-//   };
+  const checkIfWalletIsConnected = async () => {
+    if (window.ethereum) {
+      const accounts = await window.ethereum.request({
+        method: "eth_accounts",
+      });
+      if (accounts.length > 0) {
+        const account = accounts[0];
+        setWalletAddress(account);
+        await updateBalance(account);
+        setIsConnected(true);
+      }
+    }
+  };
+
+  const sendWalletDataToBackend = async (address, balance) => {
+    try {
+      const response = await fetch("http://localhost:8080/api/wallet-data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ address, balance }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to send wallet data to backend");
+      }
+    } catch (error) {
+      console.error("Error sending wallet data to backend:", error);
+    }
+  };
 
   return {
     walletAddress,

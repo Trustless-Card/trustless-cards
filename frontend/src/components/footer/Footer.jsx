@@ -24,12 +24,6 @@ export default function Footer() {
         <div className="text-center text-lg pb-4 w-full">
           <p>Made At Inteli</p>
         </div>
-        <div className="flex justify-center py-4 gap-4">
-          <Link
-            href="https://github.com/Trustless-Card"
-            className="hover:cursor-pointer"
-          ></Link>
-        </div>
         <div className="w-full flex justify-center">
           <p className="mx-auto text-xs md:text-base p-2">
             Copyright @ 2024 TrustlessCards

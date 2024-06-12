@@ -1,10 +1,8 @@
 import React from "react";
-import logo from "../../logo.svg"; // Certifique-se de que os ativos estáticos estão corretamente configurados
+import logo from "../../assets/logo.png";
 import { Button } from "../ui/button";
 import { useHistory, useLocation } from "react-router-dom";
 import useWallet from "../../hooks/useWallet";
-
-
 
 export default function Header() {
   const { walletAddress, walletBalance, isConnected, connectWallet } =
@@ -22,60 +20,62 @@ export default function Header() {
 
   return (
     <div className="flex p-10 justify-between text-xl max-w-screen-xl mx-auto">
-              <div className="flex items-center gap-5">
-
-      <a href="/">
-        <img
-          className="h-20 w-20"
-          src={logo}
-          alt="logo"
-          height={50}
-          style={{ cursor: "pointer" }}
-        />
-      </a>
-      <div className="flex gap-5 items-center justify-center m-auto">
-        <a
-          href="/"
-          className={`transition hover:text-white hover:cursor-pointer ${
-            location.pathname === "/" ? "text-white" : "text-zinc-600"
-          }`}
-        >
-          Home
+      <div className="flex items-center gap-5">
+        <a href="/">
+          <img
+            className="h-20 w-20"
+            src={logo}
+            alt="logo"
+            height={50}
+            style={{ cursor: "pointer" }}
+          />
         </a>
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            scrollToSection("about");
-          }}
-          className="transition hover:text-white hover:cursor-pointer text-zinc-600"
-        >
-          About
-        </a>
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            scrollToSection("games");
-          }}
-          className="transition hover:text-white hover:cursor-pointer text-zinc-600"
-        >
-          Games
-        </a>
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            scrollToSection("support");
-          }}
-          className="transition hover:text-white hover:cursor-pointer text-zinc-600"
-        >
-          Contact
-        </a>
+        <div className="flex gap-5 items-center justify-center m-auto">
+          <a
+            href="/"
+            className={`transition hover:text-white hover:cursor-pointer ${
+              location.pathname === "/" ? "text-white" : "text-zinc-600"
+            }`}
+          >
+            Home
+          </a>
+          <a
+            href="#games"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("games");
+            }}
+            className="transition hover:text-white hover:cursor-pointer text-zinc-600"
+          >
+            Games
+          </a>
+          <a
+            href="#about"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("about");
+            }}
+            className="transition hover:text-white hover:cursor-pointer text-zinc-600"
+          >
+            About
+          </a>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("support");
+            }}
+            className="transition hover:text-white hover:cursor-pointer text-zinc-600"
+          >
+            Contact
+          </a>
         </div>
       </div>
       <div className="my-auto">
-        <Button type="button" className="bg-gray-900">
+        <button
+          type="button"
+          className="flex flex-row bg-red-950 text-red-400 border border-red-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
+        >
           <svg
             aria-hidden="true"
             class="w-6 h-5 me-2 -ms-1"
@@ -514,8 +514,9 @@ export default function Header() {
               </clipPath>{" "}
             </defs>{" "}
           </svg>
-          Connect with MetaMask
-        </Button>
+          <span class="bg-red-400 shadow-red-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
+          MetaMask
+        </button>
       </div>
     </div>
   );

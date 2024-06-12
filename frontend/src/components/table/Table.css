@@ -1,0 +1,231 @@
+/* Table only styles */
+
+.blues {
+  background-color: navy;
+  color: white;
+  cursor: pointer;
+}
+
+.greens {
+  background-color: darkgreen;
+  color: white;
+  cursor: pointer;
+}
+
+.greens:hover {
+  background-color: greenyellow;
+  color: black;
+}
+
+.reds {
+  background-color: red;
+  color: red!important;
+  cursor: pointer;
+}
+
+.blacks {
+  background-color: black;
+  color: black!important;
+  cursor: pointer;
+}
+
+.cella  {
+  width: 35px!important;
+  height: 35px!important;
+  font-size: 12px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.chip-container-cella {
+  line-height: 35px;
+  text-align: center;
+}
+
+.cella-z-top  {
+  width: 35px!important;
+  height: 70px!important;
+  font-size: 12px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  clip-path: polygon(50% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.cella-z-bottom  {
+  width: 35px!important;
+  height: 70px!important;
+  font-size: 12px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%);
+}
+
+.chip-container-cella-z {
+  line-height: 76px;
+  text-align: center;
+}
+
+.cella-fourth  {
+  width: 158px!important;
+  height: 35px!important;
+  font-size: 12px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.chip-container-cella-fifth {
+  line-height: 35px;
+  text-align: center;
+}
+
+.cella-fifth  {
+  width: 76px!important;
+  height: 35px!important;
+  font-size: 12px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.chip-container-cella-fourth {
+  line-height: 35px;
+  text-align: center;
+}
+
+.bordo {
+  background-color: green;
+  width: 6px;
+  max-width: 6px;
+  height: 35px;
+  font-size:1px;
+  color: green;
+  cursor: pointer;
+}
+
+.bordo .chip {
+  margin-left: -8px;
+}
+
+.chip-container-bordo {
+  line-height: 35px;
+  position: relative;
+}
+
+.bordo:hover {
+  background-color: yellow;
+  color: yellow;
+}
+
+.bordo-h {
+  background-color: green;
+  height: 6px;
+  max-height: 6px;
+  width: 35px!important;
+  font-size:1px;
+  color: green;
+  cursor: pointer;
+}
+
+.bordo-h .chip {
+  margin-top: -6px;
+  margin-left: 12px;
+}
+
+.chip-container-bordo-h {
+  line-height: 6px;
+  position: relative;
+}
+
+.bordo-h:hover {
+  background-color: yellow;
+  color: yellow;
+}
+
+.space {
+  width: 6px;
+  height: 6px;
+  background-color: #F2F098;
+}
+
+.bet-space {
+  width: 6px;
+  height: 6px;
+  background-color: orange;
+  cursor: pointer;
+  font-size: 0;
+}
+
+.bet-space:hover {
+  background-color: yellow;
+}
+
+.bet-space .chip {
+  margin-top: -6px;
+  margin-left: -6px;
+}
+
+.space-fourth {
+  width: 6px;
+  height: 35px;
+  background-color: #F2F098;
+}
+
+.space-2by1, .space-z {
+  width: auto;
+  height: 6px;
+  background-color: #F2F098;
+  margin: 0;
+  padding: 0;
+}
+
+.table-divider {
+  height: 6px!important;
+  width: 100%!important;
+  background-color: #F2F098;
+  margin: 0!important;
+}
+
+.divider-50 {
+  height: 6px!important;
+  width: 50%!important;
+  background-color: #F2F098;
+}
+
+.divider-invisible {
+  height: 6px!important;
+  width: 100%!important;
+  background-color: transparent!important;
+}
+
+.red {
+  background-color: red!important;
+}
+
+.black {
+  background-color: black!important;
+}
+
+ul {
+  margin: 0!important;
+}
+
+.no-cursor {
+  cursor: not-allowed;
+}
+
+.roulette-table button {
+  border: none!important;
+  outline: none!important;
+  margin: 0!important;
+  padding: 0!important;
+}
+

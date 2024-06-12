@@ -1,92 +1,59 @@
 package main
 
 import (
-	"encoding/json"
-	"io/ioutil"
-  "strconv"
-  "fmt"
-  "log"
-  "os"
+	"context"
+	"fmt"
+	"log/slog"
 
-  "dapp/rollups"
+	"github.com/rollmelette/rollmelette"
 )
 
-var (
-  infolog  = log.New(os.Stderr, "[ info ]  ", log.Lshortfile)
-  errlog   = log.New(os.Stderr, "[ error ] ", log.Lshortfile)
-)
+type TrustlessCards struct{}
 
-func HandleAdvance(data *rollups.AdvanceResponse) error {
-  dataMarshal, err := json.Marshal(data)
-  if err != nil {
-    return fmt.Errorf("HandleAdvance: failed marshaling json: %w", err)
-  }
-  infolog.Println("Received advance request data", string(dataMarshal))
-  return nil
+func (a *TrustlessCards) Advance(
+	env rollmelette.Env,
+	metadata rollmelette.Metadata,
+	deposit rollmelette.Deposit,
+	payload []byte,
+) error {
+	deck := shuffleDeck()
+	env.Notice([]byte(fmt.Sprintf("meu deck %v",deck)))
+	// Handle advance input
+	return nil
 }
 
-
-func HandleInspect(data *rollups.InspectResponse) error {
-  dataMarshal, err := json.Marshal(data)
-  if err != nil {
-    return fmt.Errorf("HandleInspect: failed marshaling json: %w", err)
-  }
-  infolog.Println("Received inspect request data", string(dataMarshal))
-  return nil
+func (a *TrustlessCards) Inspect(env rollmelette.EnvInspector, payload []byte) error {
+	// Handle inspect input
+	return nil
 }
 
-func Handler(response *rollups.FinishResponse) error {
-  var err error
+func shuffleDeck() [52]int {
+	// Criando o baralho inicial
+	seed := 12012
+	deck := [52]int{}
+	for i := 0; i < 52; i++ {
+		deck[i] = i
+	}
 
-  switch response.Type {
-  case "advance_state":
-    data := new(rollups.AdvanceResponse)
-    if err = json.Unmarshal(response.Data, data); err != nil {
-      return fmt.Errorf("Handler: Error unmarshaling advance:", err)
-    }
-    err = HandleAdvance(data)
-  case "inspect_state":
-    data := new(rollups.InspectResponse)
-    if err = json.Unmarshal(response.Data, data); err != nil {
-      return fmt.Errorf("Handler: Error unmarshaling inspect:", err)
-    }
-    err = HandleInspect(data)
-  }
-  return err
+	// Embaralhando o baralho usando o algoritmo Fisher-Yates
+	rand := func(n int) int {
+		// Esta função gera um número pseudoaleatório determinístico com base no seed
+		return int((seed + int(n)*123456789) % 52)
+	}
+
+	for i := 51; i > 0; i-- {
+		j := rand(i + 1)
+		deck[i], deck[j] = deck[j], deck[i]
+	}
+	return deck
 }
 
 func main() {
-  finish := rollups.FinishRequest{"accept"}
-
-  for true {
-    infolog.Println("Sending finish")
-    res, err := rollups.SendFinish(&finish)
-    if err != nil {
-      errlog.Panicln("Error: error making http request: ", err)
-    }
-    infolog.Println("Received finish status ", strconv.Itoa(res.StatusCode))
-    
-    if (res.StatusCode == 202){
-      infolog.Println("No pending rollup request, trying again")
-    } else {
-
-      resBody, err := ioutil.ReadAll(res.Body)
-      if err != nil {
-        errlog.Panicln("Error: could not read response body: ", err)
-      }
-      
-      var response rollups.FinishResponse
-      err = json.Unmarshal(resBody, &response)
-      if err != nil {
-        errlog.Panicln("Error: unmarshaling body:", err)
-      }
-
-      finish.Status = "accept"
-      err = Handler(&response)
-      if err != nil {
-        errlog.Println(err)
-        finish.Status = "reject"
-      }
-    }
-  }
+	ctx := context.Background()
+	opts := rollmelette.NewRunOpts()
+	app := new(TrustlessCards)
+	err := rollmelette.Run(ctx, opts, app)
+	if err != nil {
+		slog.Error("application error", "error", err)
+	}
 }

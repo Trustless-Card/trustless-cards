@@ -86,7 +86,7 @@ export default function Games() {
               </CardFooter>
               <Button
                 variant="default"
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 transition duration-200 ease-in-out hover:scale-110 active:scale-100 shadow hover:shadow-sm hover:shadow-white"
+                className="absolute bottom-10 left-1/2 -translate-x-1/2 transition duration-200 ease-in-out hover:scale-110 active:scale-100 shadow hover:shadow-md hover:shadow-gold"
               >
                 <p className="text-2xl font-bold bg-gradient-to-r from-[#9a5517] via-[#ffd98e] to-[#873a1a] bg-clip-text text-transparent">
                   Play

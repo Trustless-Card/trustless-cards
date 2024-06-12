@@ -26,15 +26,16 @@ export default function AboutHero() {
                         Trustless Cards is an online casino that fully utilizes
                         blockchain technology to ensure fairness and
                         transparency.
+                        <br />
                         <strong>
+                          {" "}
                           Here, every shuffle and spin is verifiably random,
                           offering you a true opportunity to win.
                         </strong>
+                        <br />
                         Discover the thrill of truly fair gaming, where trust is
                         built into every game and your chances are only as good
-                        as your strategy. Join us at Trustless Cards and
-                        experience the integrity of a fully transparent gaming
-                        platform.
+                        as your strategy.
                       </p>
                     </div>
                   </Card>

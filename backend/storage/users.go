@@ -3,7 +3,7 @@ package storage
 import (
 	"database/sql"
 
-	"github.com/Trustless-Card/trustless-cards/types"
+	"dapp/types"
 )
 
 type UserStorage struct {

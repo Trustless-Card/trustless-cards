@@ -25,9 +25,9 @@ ENV CGO_ENABLED=1
 ENV CC=riscv64-linux-gnu-gcc
 ENV PATH=/usr/local/go/bin:${PATH}
 
-COPY src .
+COPY . .
 
-RUN make
+RUN make dapp
 
 # runtime stage: produces final image that will be executed
 FROM --platform=linux/riscv64 riscv64/ubuntu:22.04
@@ -53,9 +53,11 @@ EOF
 ENV PATH="/opt/cartesi/bin:${PATH}"
 
 WORKDIR /opt/cartesi/dapp
+
 COPY --from=build-stage /opt/build/dapp .
 
 ENV ROLLUP_HTTP_SERVER_URL="http://127.0.0.1:5004"
 
 ENTRYPOINT ["rollup-init"]
 CMD ["/opt/cartesi/dapp/dapp"]
+

@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"github.com/Trustless-Card/trustless-cards/storage"
+	"dapp/storage"
 	"github.com/gofiber/fiber/v2"
 )
 

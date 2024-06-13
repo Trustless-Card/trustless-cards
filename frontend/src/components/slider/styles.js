@@ -10,7 +10,7 @@ const railStyle = {
   height: 10,
   marginTop: 35,
   borderRadius: 5,
-  backgroundColor: '#8B9CB6',
+  backgroundColor: '#39393b',
 }
 
 export { sliderStyle, railStyle }

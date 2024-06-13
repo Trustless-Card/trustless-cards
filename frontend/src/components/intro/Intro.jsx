@@ -1,12 +1,8 @@
 import React from "react";
-import { Button } from "../ui/button";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { FlipWords } from "../ui/flip-words";
 
 export default function HeroSection() {
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    element?.scrollIntoView({ behavior: "smooth", block: "center" });
-  };
+  const words = ["Wins ", "Money ", "Trust "];
 
   return (
     <div className="h-fit md:mb-12 mb-8 pt-20 relative mx-auto max-w-screen-2xl">
@@ -14,17 +10,19 @@ export default function HeroSection() {
         <div className="text-center pt-16">
           <h1 className="font-medium text-5xl lg:text-7xl text-neutral-400">
             Fair Play, Real{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
-              Wins
-            </span>{" "}
-            with <br />{" "}
+            <FlipWords
+              className="text-gold bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600"
+              words={words}
+            />
+            <br />{" "}
             <span className="font-bold text-white shadow-white drop-shadow-lg">
-              Cartesi Rollups
+              with Cartesi Rollups
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
                 .
               </span>
             </span>
           </h1>
+
           <p className="lg:text-xl leading-relaxed text-neutral-300 mt-4 p-10 max-w-screen-lg mx-auto">
             Unlock Success with Trustless Cards! Our cutting-edge, decentralized
             platform revolutionizes online card gaming, guaranteeing

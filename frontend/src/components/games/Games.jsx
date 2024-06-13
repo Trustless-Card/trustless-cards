@@ -8,9 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { MdCasino } from "react-icons/md";
 import { CgCardSpades } from "react-icons/cg";
-import { GrMoney } from "react-icons/gr";
 import { Button } from "../ui/button";
 import { GiCardJoker } from "react-icons/gi";
 import { TbClover } from "react-icons/tb";

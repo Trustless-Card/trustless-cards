@@ -74,6 +74,10 @@ func (a *TrustlessCards) Advance(
 		a.Balances[fixedERC20].Sub(a.Balances[fixedERC20], amount)
 		fmt.Printf("Withdrawn: from=%s, to=%s, value=%s ETH\n", fixedERC20.Hex(), input.From.Hex(), amount.String())
 
+		env.Notice([]byte(fmt.Sprintf("withdrawn %v", amount)))
+
+	case "shambles":
+		// Executar a função de embaralhar o deck
 		deck := shuffleDeck()
 		env.Notice([]byte(fmt.Sprintf("meu deck %v", deck)))
 

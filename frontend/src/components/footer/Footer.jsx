@@ -1,10 +1,11 @@
 import React from "react";
 import logo from "../../assets/logo.png";
 import { Link } from "lucide-react";
+import GoldCard from "../goldCard/goldCard";
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-t from-indigo-950 to-black text-white">
+    <footer className="bg-gradient-to-t from-[#8B4513] mt-20 to-black text-white">
       <div>
         <div className="pt-10 flex justify-center mb-5">
           <a

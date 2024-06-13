@@ -38,11 +38,11 @@ func main() {
 
     matchGroup := app.Group("/matches")
     matchGroup.Get("/all", matchHandler.GetMatches)
-    //
-    // matchUserGroup := app.Group("/matchusers")
-    // matchUserGroup.Post("/add", matchUserHandler.AddUserToMatch)
-    // matchUserGroup.Get("/:userID/match/:matchID", matchUserHandler.GetMatchesForUser)
-    //
+
+    matchUserGroup := app.Group("/matchusers")
+    matchUserGroup.Post("/add", matchUserHandler.AddUserToMatch)
+    matchUserGroup.Get("/:userID/match/:matchID", matchUserHandler.GetMatchesForUser)
+
     app.Listen(":6969")
 }
 

@@ -32,14 +32,15 @@ func (h *MatchUserHandler) AddUserToMatch(c *fiber.Ctx) error {
     return c.JSON(fiber.Map{"message": "User added to match successfully"})
 }
 
-func (h *MatchUserHandler) GetMatchesForUser(c *fiber.Ctx) error {
-    userIDStr := c.Params("userID")
-    userID, err := strconv.Atoi(userIDStr)
+func (h *MatchUserHandler) GetMatchesUserByID(c *fiber.Ctx) error {
+
+    matchIDStr := c.Params("matchID")
+    matchID, err := strconv.Atoi(matchIDStr)
     if err != nil {
-        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid user ID"})
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid match ID"})
     }
 
-    matchesForUser, err := h.Storage.GetMatchesForUser(userID)
+    matchesForUser, err := h.Storage.GetMatchesForUser(matchID)
     if err != nil {
         return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
     }

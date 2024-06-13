@@ -5,6 +5,7 @@ go 1.21.1
 toolchain go1.22.2
 
 require (
+	github.com/ethereum/go-ethereum v1.13.8
 	github.com/gofiber/fiber/v2 v2.52.4
 	github.com/joho/godotenv v1.5.1
 	github.com/rollmelette/rollmelette v0.1.1
@@ -16,7 +17,6 @@ require (
 	github.com/antlr4-go/antlr/v4 v4.13.0 // indirect
 	github.com/btcsuite/btcd/btcec/v2 v2.2.0 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.1 // indirect
-	github.com/ethereum/go-ethereum v1.13.8 // indirect
 	github.com/google/uuid v1.5.0 // indirect
 	github.com/holiman/uint256 v1.2.4 // indirect
 	github.com/klauspost/compress v1.17.0 // indirect

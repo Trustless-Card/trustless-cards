@@ -1,8 +1,28 @@
-build: 
-	@go build -o bin/api cmd/main.go
+GO := go
 
-run: build 
-	@./bin/api
+.PHONY: clean
 
-migrate:
-	@go run migrations/migrations.go
+all: dapp api
+
+dapp: cmd/rollup/dapp.go rollups/helpers.go rollups/model.go
+	$(GO) mod tidy
+	$(GO) build -o dapp ./cmd/rollup
+
+api: cmd/api/main.go
+	$(GO) mod tidy
+	$(GO) build -o api ./cmd/api
+
+clean:
+	@rm -rf dapp api
+
+
+# GO := go
+#
+# .PHONY: clean
+#
+# dapp: cmd/rollup/dapp.go rollups/helpers.go rollups/model.go
+# 	$(GO) mod tidy
+# 	$(GO) build -o dapp ./cmd/rollup
+#
+# clean:
+# 	@rm -rf dapp

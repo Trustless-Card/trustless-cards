@@ -1,9 +1,13 @@
+// This implementation is for a future implementation of an online game.
+// For now, the online features will not be used. Code related to
+// match users functionality is commented out for future use.
+
 package storage
 
 import (
 	"database/sql"
 
-	"github.com/Trustless-Card/trustless-cards/types"
+	"dapp/types"
 )
 
 type UserStorage struct {

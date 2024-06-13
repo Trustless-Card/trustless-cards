@@ -26,8 +26,7 @@ func NewTrustlessCards() *TrustlessCards {
 type Payload struct {
 	Method string         `json:"method"`
 	From   common.Address `json:"from"`
-	ERC20  common.Address `json:"erc20"`
-	Amount *big.Int       `json:"amount"`
+	Amount string         `json:"amount"`
 }
 
 // Advance processa entradas (inputs) com base no tipo de payload
@@ -43,47 +42,46 @@ func (a *TrustlessCards) Advance(
 		return fmt.Errorf("failed to unmarshal payload: %w", err)
 	}
 
+	amount := new(big.Int)
+	if _, success := amount.SetString(input.Amount, 10); !success {
+		return fmt.Errorf("failed to parse amount: %s", input.Amount)
+	}
+
 	switch input.Method {
 	case "deposit":
-		// Criando um depósito com base nas informações do payload
-		ethDeposit := &rollmelette.EtherDeposit{
-			Sender: input.From,
-			Value:  input.Amount,
+		// Implementação do depósito
+		fixedERC20 := common.HexToAddress("0xab7528bb862fb57e8a2bcd567a2e929a0be56a5e")
+
+		if _, exists := a.Balances[fixedERC20]; !exists {
+			a.Balances[fixedERC20] = big.NewInt(0)
 		}
-		if _, exists := a.Balances[ethDeposit.Sender]; !exists {
-			a.Balances[ethDeposit.Sender] = big.NewInt(0)
-		}
-		a.Balances[ethDeposit.Sender].Add(a.Balances[ethDeposit.Sender], ethDeposit.Value)
-		fmt.Printf("Deposit successful: sender=%s, value=%s ETH\n", ethDeposit.Sender.Hex(), ethDeposit.Value.String())
+		a.Balances[fixedERC20].Add(a.Balances[fixedERC20], amount)
+		fmt.Printf("Deposit successful: from=%s, to=%s, value=%s ETH\n", input.From.Hex(), fixedERC20.Hex(), amount.String())
 
 		deck := shuffleDeck()
 		env.Notice([]byte(fmt.Sprintf("meu deck %v", deck)))
 
 	case "withdraw":
-		// Criando um saque com base nas informações do payload
-		// ethDeposit := &rollmelette.EtherDeposit{
-		// 	Sender: input.ERC20,
-		// 	Value:  input.Amount,
-		// }
-		// if _, exists := a.Balances[ethDeposit.Sender]; !exists {
-		// 	a.Balances[ethDeposit.Sender] = big.NewInt(0)
-		// }
-		// a.Balances[ethDeposit.Sender].Add(a.Balances[ethDeposit.Sender], ethDeposit.Value)
-		// fmt.Printf("Deposit successful: sender=%s, value=%s ETH\n", ethDeposit.Sender.Hex(), ethDeposit.Value.String())
-		//
-		// deck := shuffleDeck()
-		// env.Notice([]byte(fmt.Sprintf("meu deck %v", deck)))
-		//
-		// if err := a.withdraw(env, metadata); err != nil {
-		// 	return err
-		// }
-		// deck := shuffleDeck()
-		// env.Notice([]byte(fmt.Sprintf("meu deck %v", deck)))
+		// Implementação do saque
+		fixedERC20 := common.HexToAddress("0xab7528bb862fb57e8a2bcd567a2e929a0be56a5e")
+
+		balance, exists := a.Balances[fixedERC20]
+		if !exists || balance.Sign() == 0 || balance.Cmp(amount) < 0 {
+			return fmt.Errorf("insufficient balance or nothing to withdraw")
+		}
+
+		// Deduzir o valor do saldo
+		a.Balances[fixedERC20].Sub(a.Balances[fixedERC20], amount)
+		fmt.Printf("Withdrawn: from=%s, to=%s, value=%s ETH\n", fixedERC20.Hex(), input.From.Hex(), amount.String())
+
+		deck := shuffleDeck()
+		env.Notice([]byte(fmt.Sprintf("meu deck %v", deck)))
 
 	default:
 		return fmt.Errorf("unknown method: %s", input.Method)
 	}
 
+	// Emitindo relatório de saldo
 	a.Inspect(env, nil)
 	return nil
 }
@@ -94,22 +92,6 @@ func (a *TrustlessCards) Inspect(env rollmelette.EnvInspector, payload []byte) e
 	for addr, balance := range a.Balances {
 		env.Report(append(addr.Bytes(), balance.FillBytes(make([]byte, 32))...))
 	}
-	return nil
-}
-
-// withdraw processa um saque de Ether
-func (a *TrustlessCards) withdraw(env rollmelette.Env, metadata rollmelette.Metadata) error {
-	sender := metadata.MsgSender
-	balance, exists := a.Balances[sender]
-	if !exists || balance.Sign() == 0 {
-		return fmt.Errorf("nothing to withdraw")
-	}
-	_, err := env.EtherWithdraw(sender, balance)
-	if err != nil {
-		return err
-	}
-	fmt.Printf("Withdrawn: sender=%s, value=%s ETH\n", sender.Hex(), balance.String())
-	a.Balances[sender] = big.NewInt(0)
 	return nil
 }
 
@@ -144,139 +126,4 @@ func main() {
 		fmt.Printf("Application error: %v\n", err)
 	}
 }
-
-// package main
-//
-// import (
-// 	"context"
-// 	"encoding/json"
-// 	"fmt"
-// 	"math/big"
-//
-// 	"github.com/ethereum/go-ethereum/common"
-// 	"github.com/rollmelette/rollmelette"
-// )
-//
-// // TrustlessCards representa o contrato
-// type TrustlessCards struct {
-// 	Balances map[common.Address]*big.Int
-// }
-//
-// // NewTrustlessCards inicializa uma nova instância de TrustlessCards
-// func NewTrustlessCards() *TrustlessCards {
-// 	return &TrustlessCards{
-// 		Balances: make(map[common.Address]*big.Int),
-// 	}
-// }
-//
-// // Payload estrutura para determinar o tipo de operação
-// type Payload struct {
-// 	Method         string         `json:"method"`
-// 	From           common.Address `json:"from"`
-// 	ERC20          common.Address `json:"erc20"`
-// 	Amount         *big.Int       `json:"amount"`
-// 	WithdrawAmount *big.Int       `json:"withdrawAmount"`
-// }
-//
-// // Advance processa entradas (inputs) com base no tipo de payload
-// func (a *TrustlessCards) Advance(
-// 	env rollmelette.Env,
-// 	metadata rollmelette.Metadata,
-// 	deposit rollmelette.Deposit,
-// 	payload []byte,
-// ) error {
-// 	// Decodificando o payload JSON
-// 	var input Payload
-// 	if err := json.Unmarshal(payload, &input); err != nil {
-// 		return fmt.Errorf("failed to unmarshal payload: %w", err)
-// 	}
-//
-// 	switch input.Method {
-// 	case "deposit":
-// 		// Implementação do depósito
-// 		ethDeposit := &rollmelette.EtherDeposit{
-// 			Sender: input.From,
-// 			Value:  input.Amount,
-// 		}
-// 		if _, exists := a.Balances[ethDeposit.Sender]; !exists {
-// 			a.Balances[ethDeposit.Sender] = big.NewInt(0)
-// 		}
-// 		a.Balances[ethDeposit.Sender].Add(a.Balances[ethDeposit.Sender], ethDeposit.Value)
-// 		fmt.Printf("Deposit successful: sender=%s, value=%s ETH\n", ethDeposit.Sender.Hex(), ethDeposit.Value.String())
-//
-// 	case "withdraw":
-// 		// Verificação do valor de saque
-// 		if input.WithdrawAmount == nil {
-// 			return fmt.Errorf("withdrawAmount not provided")
-// 		}
-//
-// 		// Executando a função de saque
-// 		if err := a.withdraw(env, metadata, input.From, input.WithdrawAmount); err != nil {
-// 			return err
-// 		}
-//
-// 	default:
-// 		return fmt.Errorf("unknown method: %s", input.Method)
-// 	}
-//
-// 	// Emitindo relatório de saldo
-// 	a.Inspect(env, nil)
-// 	return nil
-// }
-//
-// // Inspect emite um relatório de saldo para todos os endereços
-// func (a *TrustlessCards) Inspect(env rollmelette.EnvInspector, payload []byte) error {
-// 	// Emit balance report for all addresses
-// 	for addr, balance := range a.Balances {
-// 		env.Report(append(addr.Bytes(), balance.FillBytes(make([]byte, 32))...))
-// 	}
-// 	return nil
-// }
-//
-// // withdraw processa um saque de Ether
-// func (a *TrustlessCards) withdraw(env rollmelette.Env, metadata rollmelette.Metadata, sender common.Address, withdrawAmount *big.Int) error {
-// 	balance, exists := a.Balances[sender]
-// 	if !exists || balance.Sign() == 0 || balance.Cmp(withdrawAmount) < 0 {
-// 		return fmt.Errorf("insufficient balance or nothing to withdraw")
-// 	}
-// 	_, err := env.EtherWithdraw(sender, withdrawAmount)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	fmt.Printf("Withdrawn: sender=%s, value=%s ETH\n", sender.Hex(), withdrawAmount.String())
-// 	a.Balances[sender].Sub(a.Balances[sender], withdrawAmount)
-// 	return nil
-// }
-//
-// // shuffleDeck embaralha o baralho de cartas
-// func shuffleDeck() [52]int {
-// 	// Criando o baralho inicial
-// 	seed := 12012
-// 	deck := [52]int{}
-// 	for i := 0; i < 52; i++ {
-// 		deck[i] = i
-// 	}
-//
-// 	// Embaralhando o baralho usando o algoritmo Fisher-Yates
-// 	rand := func(n int) int {
-// 		// Esta função gera um número pseudoaleatório determinístico com base no seed
-// 		return int((seed + int(n)*123456789) % 52)
-// 	}
-//
-// 	for i := 51; i > 0; i-- {
-// 		j := rand(i + 1)
-// 		deck[i], deck[j] = deck[j], deck[i]
-// 	}
-// 	return deck
-// }
-//
-// func main() {
-// 	ctx := context.Background()
-// 	opts := rollmelette.NewRunOpts()
-// 	app := NewTrustlessCards()
-// 	err := rollmelette.Run(ctx, opts, app)
-// 	if err != nil {
-// 		fmt.Printf("Application error: %v\n", err)
-// 	}
-// }
 

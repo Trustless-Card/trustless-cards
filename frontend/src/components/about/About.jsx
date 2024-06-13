@@ -1,67 +1,65 @@
 import React from "react";
-import { Card } from "../ui/card"; // Adjust the path as needed
+import {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "../ui/card"; // Ajuste o caminho conforme necessário
+import GoldCard from "../goldCard/goldCard";
+import MetaMask from "../metamask/metamask";
 
 export default function AboutHero() {
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col items-center px-12 md:px-12 md:mt-10 w-[100%]">
-        <p
-          className="text-5xl font-semibold text-white md:px-10 p-0 m-0"
-          id="about"
-        >
-          ♣️ What is Trustless Cards?
-        </p>
-        <div className="flex flex-row flex-start mb-20">
-          <div className="flex flex-col items-center p-10 md:h-[80%] md:flex space-y-8">
-            <div className="md:w-[100%] flex gap-10 items-center">
-              <div className="">
-                <div className="relative group">
-                  <div className="absolute inset-0 transition-all duration-300 bg-gradient-to-r from-yellow-100 via-yellow-200 to-yellow-400 opacity-0 blur-sm group-hover:opacity-100 group-hover:blur-md rounded-lg "></div>
-                  <Card className="align-items rounded-lg text-card-foreground mb-6 bg-[#080908] border-2 border-gold md:p-6 p-4 flex flex-col items-center text-center relative z-10">
-                    <div className="flex flex-col">
-                      <p className="text-3xl text-white py-2 font-semibold">
-                        Trustless Game
-                      </p>
-                      <p className="indent-4 text-slate-300">
-                        Trustless Cards is an online casino that fully utilizes
-                        blockchain technology to ensure fairness and
-                        transparency.
-                        <br />
-                        <strong>
-                          {" "}
-                          Here, every shuffle and spin is verifiably random,
-                          offering you a true opportunity to win.
-                        </strong>
-                        <br />
-                        Discover the thrill of truly fair gaming, where trust is
-                        built into every game and your chances are only as good
-                        as your strategy.
-                      </p>
-                    </div>
-                  </Card>
-                </div>
-                <div className="relative group">
-                  <div className="absolute inset-0 transition-all duration-300 bg-gradient-to-r from-yellow-100 via-yellow-200 to-yellow-400 opacity-0 blur-sm group-hover:opacity-100 group-hover:blur-md rounded-lg"></div>
-                  <Card className="align-items rounded-lg text-card-foreground mb-6 bg-[#080908] border-2 border-gold md:p-6 p-4 flex flex- text-center relative z-10">
-                    <div className="flex flex-col">
-                      <p className="text-3xl text-white py-2 font-semibold">
-                        Seamless Crypto Wallet Integration
-                      </p>
-                      <p className="indent-4 text-slate-300">
-                        Our platform allows players to effortlessly connect
-                        their existing crypto wallets, enabling direct
-                        participation in games. This integration ensures a
-                        user-friendly experience, providing smooth and secure
-                        financial transactions.
-                      </p>
-                    </div>
-                  </Card>
-                </div>
-              </div>
+    <>
+      <div className="flex flex-col space-y-4">
+        <h2 className="text-center text-4xl font-semibold text-neutral-200">
+          ♦ What is Trustless Cards?
+        </h2>
+        <div className="flex space-x-2 justify-center">
+          <Card className="flex bg-zinc-950 dark:bg-white text-white scale-75 w-[50%] hover:shadow-gold shadow-md transition duration-500 border-gold">
+            <div className="flex-1 p-4">
+              <CardHeader>
+                <CardTitle className="text-2xl text-center">
+                  Trustless Game
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-center text-lg text-neutral-300">
+                Trustless Cards is an online casino that fully utilizes
+                blockchain technology to ensure fairness and transparency.
+                <br />
+                <br />
+                <strong>
+                  Here, every shuffle and spin is verifiably random, offering
+                  you a true opportunity to win.
+                </strong>
+              </CardContent>
             </div>
-          </div>
+            <div className="m-10">
+              <GoldCard className="flex-1" />
+            </div>
+          </Card>
+          <Card className="flex bg-zinc-950 dark:bg-white text-white scale-75 w-[50%] hover:shadow-gold shadow-md transition duration-500 border-gold">
+            <div className="flex-1 p-4">
+              <CardHeader>
+                <CardTitle className="text-2xl text-center">
+                  Seamless Crypto Wallet Integration
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-center text-lg text-neutral-300">
+                Our platform allows players to effortlessly connect their
+                existing crypto wallets, enabling direct participation in games.
+                This integration ensures a user-friendly experience, providing
+                smooth and secure financial transactions.
+              </CardContent>
+            </div>
+            <div className="flex items-center justify-center m-10 pr-4">
+              <MetaMask></MetaMask>
+            </div>
+          </Card>
         </div>
       </div>
-    </div>
+    </>
   );
 }

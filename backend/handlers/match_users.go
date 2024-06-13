@@ -1,3 +1,7 @@
+// This implementation is for a future implementation of an online game.
+// For now, the online features will not be used. Code related to
+// match users functionality is commented out for future use.
+
 package handlers
 
 import (

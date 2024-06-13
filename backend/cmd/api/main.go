@@ -1,3 +1,7 @@
+// This implementation is for a future implementation of an online game.
+// For now, the online features will not be used. Code related to
+// match users functionality is commented out for future use.
+
 package main
 
 import (
@@ -12,57 +16,47 @@ import (
 )
 
 func main() {
-    db, err := db.Connect()
-    if err != nil {
-        log.Fatalf("Could not connect to the database: %v", err)
-    }
-    defer db.Close()
+	// Connect to the database
+	db, err := db.Connect()
+	if err != nil {
+		log.Fatalf("Could not connect to the database: %v", err)
+	}
+	defer db.Close()
 
-    app := fiber.New()
+	// Initialize Fiber app
+	app := fiber.New()
 
-    app.Get("/health", func(c *fiber.Ctx) error {
-        return c.JSON(fiber.Map{"status": "ok"})
-    })
+	// Health check endpoint
+	app.Get("/health", func(c *fiber.Ctx) error {
+		return c.JSON(fiber.Map{"status": "ok"})
+	})
 
-    userStorage := storage.NewUserStorage(db)
-    userHandler := handlers.NewUserHandler(userStorage)
+	// Initialize user handlers and storage
+	userStorage := storage.NewUserStorage(db)
+	userHandler := handlers.NewUserHandler(userStorage)
 
-    userGroup := app.Group("/users")
-    userGroup.Get("/me", userHandler.GetUsers)
+	// User routes
+	userGroup := app.Group("/users")
+	userGroup.Get("/me", userHandler.GetUsers)
 
-    matchStorage := storage.NewMatchStorage(db)
-    matchHandler := handlers.NewMatchHandler(matchStorage)
+	// Initialize match handlers and storage
+	matchStorage := storage.NewMatchStorage(db)
+	matchHandler := handlers.NewMatchHandler(matchStorage)
 
-    matchUserStorage := storage.NewMatchUserStorage(db)
-    matchUserHandler := handlers.NewMatchUserHandler(matchUserStorage)
+	// Initialize match user handlers and storage (commented out for future use)
+	// matchUserStorage := storage.NewMatchUserStorage(db)
+	// matchUserHandler := handlers.NewMatchUserHandler(matchUserStorage)
 
-    matchGroup := app.Group("/matches")
-    matchGroup.Get("/all", matchHandler.GetMatches)
+	// Match routes (commented out for future use)
+	matchGroup := app.Group("/matches")
+	matchGroup.Get("/all", matchHandler.GetMatches)
 
-    matchUserGroup := app.Group("/matchusers")
-    matchUserGroup.Post("/add", matchUserHandler.AddUserToMatch)
-    matchUserGroup.Get("/:userID/match/:matchID", matchUserHandler.GetMatchesForUser)
+	// Routes related to match users (commented out for future use)
+	// matchUserGroup := app.Group("/matchusers")
+	// matchUserGroup.Post("/add", matchUserHandler.AddUserToMatch)
+	// matchUserGroup.Get("/:userID/match/:matchID", matchUserHandler.GetMatchesForUser)
 
-    app.Listen(":6969")
+	// Start server
+	app.Listen(":6969")
 }
 
-
-func shuffleDeck(seed int) [52]int {
-	// Criando o baralho inicial
-	deck := [52]int{}
-	for i := 0; i < 52; i++ {
-		deck[i] = i
-	}
-
-	// Embaralhando o baralho usando o algoritmo Fisher-Yates
-	rand := func(n int) int {
-		// Esta função gera um número pseudoaleatório determinístico com base no seed
-		return int((seed + int(n)*123456789) % 52)
-	}
-
-	for i := 51; i > 0; i-- {
-		j := rand(i + 1)
-		deck[i], deck[j] = deck[j], deck[i]
-	}
-	return deck
-}

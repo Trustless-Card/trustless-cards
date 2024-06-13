@@ -165,7 +165,7 @@ img {
 
 .poker-app--background {
   position: relative;
-    overflow: auto;
+  overflow: auto;
   top: -80px;
   /* overflow: hidden; /* Isso previne que qualquer conteúdo fora dos limites seja mostrado e causa rolagem */ 
   width: 100vw; /* Isso garante que a largura não exceda a largura da viewport */
@@ -466,7 +466,7 @@ img {
 
 .poker-table--container {
   position: absolute;
-    z-index: 100;
+    z-index: 10;
 }
 
 .showdown-container--wrapper {

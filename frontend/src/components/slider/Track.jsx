@@ -8,7 +8,7 @@ function Track ({ source, target, getTrackProps }) {
         height: 10,
         zIndex: 1,
         marginTop: 35,
-        backgroundColor: '#546C91',
+        backgroundColor: '#f8fafc',
         borderRadius: 5,
         cursor: 'pointer',
         left: `${source.percent}%`,

@@ -6,15 +6,40 @@
 import "raf/polyfill";
 
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import "./App.css";
 import "./Poker.css";
+
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "../../components/ui/card";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../../components/ui/alert-dialog";
+
+import logo from "../../assets/logo.png";
+
+import { Button } from "../../components/ui/button";
 
 import Spinner from "./Spinner";
 import WinScreen from "./WinScreen";
 
 import Player from "../../components/players/Player";
 import ShowdownPlayer from "../../components/players/ShowdownPlayer";
-import Card from "../../components/cards/Card";
+import PokerCard from "../../components/cards/Card";
 
 import {
   generateDeckOfCards,
@@ -60,7 +85,7 @@ class App extends Component {
     blindIndex: null,
     deck: null,
     communityCards: [],
-    pot: null,
+    pot: 0,
     highBet: null,
     betInputValue: null,
     sidePots: [],
@@ -286,7 +311,7 @@ class App extends Component {
       if (purgeAnimation) {
         cardData.animationDelay = 0;
       }
-      return <Card key={index} cardData={cardData} />;
+      return <PokerCard key={index} cardData={cardData} />;
     });
   };
 
@@ -333,7 +358,7 @@ class App extends Component {
             {bestHand.map((card, index) => {
               // Reset Animation Delay
               const cardData = { ...card, animationDelay: 0 };
-              return <Card key={index} cardData={cardData} />;
+              return <PokerCard key={index} cardData={cardData} />;
             })}
           </div>
         </div>
@@ -387,8 +412,9 @@ class App extends Component {
       players[activePlayerIndex].chips + players[activePlayerIndex].bet;
     return players[activePlayerIndex].robot || phase === "showdown" ? null : (
       <React.Fragment>
-        <button
-          className="action-button"
+        <Button
+          className="text-xl border border-gold bg-zinc-950 hover:bg-zinc-800 hover:text-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:hover:text-zinc-50 text-white"
+          size="lg"
           onClick={() => this.handleBetInputSubmit(betInputValue, min, max)}
         >
           {renderActionButtonText(
@@ -396,10 +422,14 @@ class App extends Component {
             betInputValue,
             players[activePlayerIndex],
           )}
-        </button>
-        <button className="fold-button" onClick={() => this.handleFold()}>
+        </Button>
+        <Button
+          size="lg"
+          className="text-xl border border-red-400 bg-zinc-950 hover:bg-zinc-800 hover:text-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:hover:text-zinc-50 text-white"
+          onClick={() => this.handleFold()}
+        >
           Fold
-        </button>
+        </Button>
       </React.Fragment>
     );
   };
@@ -430,7 +460,7 @@ class App extends Component {
   };
 
   renderGame = () => {
-    const { highBet, players, activePlayerIndex, phase } = this.state;
+    const { highBet, players, activePlayerIndex, phase, winnerFound } = this.state;
     return (
       <div className="poker-app--background">
         <div className="poker-table--container">
@@ -443,18 +473,10 @@ class App extends Component {
           <div className="community-card-container">
             {this.renderCommunityCards()}
           </div>
-          <div className="pot-container">
-            <img
-              style={{ height: 55, width: 55 }}
-              src={"./assets/pot.svg"}
-              alt="Pot Value"
-            />
-            <h4> {`${this.state.pot}`} </h4>
-          </div>
         </div>
         {this.state.phase === "showdown" && this.renderShowdown()}
         <div className="game-action-bar">
-          <div className="action-buttons">{this.renderActionButtons()}</div>
+          <div className="flex gap-7">{this.renderActionButtons()}</div>
           <div className="slider-boi">
             {!this.state.loading &&
               renderActionMenu(
@@ -470,9 +492,84 @@ class App extends Component {
     );
   };
   render() {
+    const { betInputValue, players, activePlayerIndex } = this.state;
+    const activePlayer = players ? players[activePlayerIndex] : null;
+
     return (
       <div className="App">
         <div className="poker-table--wrapper">
+          <header className="flex p-10 justify-between text-xl max-w-screen-xl mx-auto items-center">
+            <img
+              className="h-20 w-20 left-0"
+              src={logo}
+              alt="logo"
+              height={50}
+            />
+            <Card className="bg-zinc-950 flex flex-row">
+              <CardHeader>
+                <CardTitle className="text-gold bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
+                  Pot
+                </CardTitle>
+                <CardDescription>
+                  <h4 className="text-zinc-300 text-xl">
+                    $ {`${this.state.pot}`}
+                  </h4>
+                </CardDescription>
+              </CardHeader>
+            </Card>
+            <Card className="bg-zinc-950 flex flex-row">
+              <CardHeader>
+                <CardTitle className="text-gold bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
+                  Bet
+                </CardTitle>
+                <CardDescription>
+                  <h4 className="text-zinc-300 text-xl">$ {betInputValue}</h4>
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="bg-zinc-950 flex flex-row">
+              <CardHeader>
+                <CardTitle className="text-gold bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
+                  Chips
+                </CardTitle>
+                <CardDescription>
+                  <h4 className="text-zinc-300 text-xl">
+                    $ {activePlayer ? activePlayer.chips : "Loading..."}
+                  </h4>
+                </CardDescription>
+              </CardHeader>
+            </Card>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button className="border border-zinc-200 bg-zinc-950 hover:bg-zinc-800 hover:text-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:hover:text-zinc-50 text-white">
+                  Quit
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="bg-zinc-950 border border-zinc-800">
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="text-zinc-50">
+                    Are you sure?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription className="text-zinc-500">
+                    If you quit, you will leave with the current money in your
+                    hand
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="border border-zinc-200 bg-zinc-950 hover:bg-zinc-800 hover:text-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:hover:text-zinc-50 text-white">
+                    Cancel
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    asChild
+                    className="bg-zinc-50 hover:bg-zinc-200 text-zinc-950"
+                  >
+                    <Link to="/"> Continue</Link>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </header>
           {this.state.loading ? (
             <Spinner />
           ) : this.state.winnerFound ? (

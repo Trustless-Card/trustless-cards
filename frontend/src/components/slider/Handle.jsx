@@ -18,17 +18,18 @@ function Handle({
         textAlign: 'center',
         cursor: 'pointer',
         borderRadius: '50%',
-        backgroundColor: '#2C4870',
+        backgroundColor: '#000000',
+        border: '2px solid #FFCC00', // Cor da borda
         color: '#aaa',
       }}
       {...getHandleProps(id)}
     >
+            <div style={{ display: 'none', textShadow: '2px 2px 8px rgba(0,0,0,0.95)', justifyContent: 'center', fontFamily: 'Roboto', fontSize: 11, marginTop: 30}} >
+                {value}
+            </div>
     </div>
 
   )
 }
 
-// <div style={{ display: 'none', textShadow: '2px 2px 8px rgba(0,0,0,0.95)', justifyContent: 'center', fontFamily: 'Roboto', fontSize: 11, marginTop: 30}} >
-//     {value}
-// </div>
 export default Handle;

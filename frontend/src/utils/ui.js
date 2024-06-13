@@ -127,6 +127,7 @@ const renderShowdownMessages = (showDownMessages) => {
 const renderActionMenu = (highBet, players, activePlayerIndex, phase, changeSliderInputFn) => {
 	const min = determineMinBet(highBet, players[activePlayerIndex].chips, players[activePlayerIndex].bet)
 	const max = players[activePlayerIndex].chips + players[activePlayerIndex].bet
+
 	return(
 		(phase === 'betting1' || phase === 'betting2' || phase === 'betting3' || phase === 'betting4') ? (players[activePlayerIndex].robot) ? (<h4> {`Current Move: ${players[activePlayerIndex].name}`}</h4>) : (
 			<React.Fragment>
@@ -166,7 +167,7 @@ const renderActionMenu = (highBet, players, activePlayerIndex, phase, changeSlid
 				<Tracks right={false}>
 					{
 						({ tracks, getTrackProps }) => (
-							<div className='slider-tracks'>
+							<div className='bg-gold'>
 								{
 									tracks.map(
 										({ id, source, target }) => (

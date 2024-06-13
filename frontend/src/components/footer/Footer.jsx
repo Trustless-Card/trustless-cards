@@ -2,12 +2,15 @@ import React from "react";
 import logo from "../../assets/logo.png";
 import { Link } from "lucide-react";
 import GoldCard from "../goldCard/goldCard";
+import "./footer.css";
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-t from-[#8B4513] mt-20 to-black text-white">
-      <div>
-        <div className="pt-10 flex justify-center mb-5">
+    <>
+      <hr className="mt-20 border-0 h-1 bg-gradient-to-r from-[#FFD700] via-[#F0E68C] via-[#F5DEB3] via-[#FFA500] to-[#FFD700] move-gradient" />
+
+      <footer className="flex flex-col items-center p-5 ">
+        <div className="justify-center">
           <a
             href="/"
             onClick={(e) => {
@@ -22,15 +25,10 @@ export default function Footer() {
             />
           </a>
         </div>
-        <div className="text-center text-lg pb-4 w-full">
-          <p>Made At Inteli</p>
-        </div>
-        <div className="w-full flex justify-center">
-          <p className="mx-auto text-xs md:text-base p-2">
-            Copyright @ 2024 TrustlessCards
-          </p>
-        </div>
-      </div>
-    </footer>
+        <p className="text-xs text-neutral-400 md:text-base p-2 text-center">
+          ♧ Copyright @ 2024 TrustlessCards ♧
+        </p>
+      </footer>
+    </>
   );
 }

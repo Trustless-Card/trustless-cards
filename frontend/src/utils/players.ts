@@ -288,16 +288,26 @@ const beginNextRound = (state) => {
   state.deck = shuffle(generateDeckOfCards());
   state.highBet = 20;
   state.betInputValue = 20;
-  state.minBet = 20; // can export out to initialState
-  // Unmount all cards so react can re-trigger animations
-  const { players } = state;
-  const clearPlayerCards = players.map((player) => ({
+  state.minBet = 20; // Valor inicial da aposta mínima
+
+  // Reiniciar os jogadores para a nova rodada
+  state.players = state.players.map((player) => ({
     ...player,
-    cards: player.cards.map((card) => {}),
+    cards: [],
+    showDownHand: {
+      hand: [],
+      descendingSortHand: [],
+    },
+    roundStartChips: player.chips,
+    currentRoundChipsInvested: 0,
+    betReconciled: false,
+    folded: false,
+    allIn: false,
   }));
-  state.players = clearPlayerCards;
+
   return passDealerChip(state);
 };
+
 
 const checkWin = (players) => {
   return players.filter((player) => player.chips > 0).length === 1;

@@ -118,35 +118,31 @@ const popShowdownCards = (deck, numToPop) => {
 
 const dealPrivateCards = (state) => {
   let animationDelay = 0;
-  while (state.players[state.activePlayerIndex].cards.length < 2) {
-    const { mutableDeckCopy, chosenCards } = popCards(state.deck, 1);
 
-    // Can export to a separate function - as it will be used in many places
-    chosenCards.animationDelay = animationDelay;
-    animationDelay = animationDelay + 250;
+  while (state.players.some(player => player.cards.length < 2)) {
+    state.players.forEach((player, index) => {
+      if (player.cards.length < 2) {
+        const { mutableDeckCopy, chosenCards } = popCards(state.deck, 1);
 
-    const newDeck = [...mutableDeckCopy];
-    state.players[state.activePlayerIndex].cards.push(chosenCards);
+        chosenCards.animationDelay = animationDelay;
+        animationDelay += 250;
 
-    state.deck = newDeck;
-    state.activePlayerIndex = handleOverflowIndex(
-      state.activePlayerIndex,
-      1,
-      state.players.length,
-      "up",
-    );
+        state.players[index].cards.push(chosenCards);
+        state.deck = mutableDeckCopy;
+      }
+    });
   }
-  if (state.players[state.activePlayerIndex].cards.length === 2) {
-    state.activePlayerIndex = handleOverflowIndex(
-      state.blindIndex.big,
-      1,
-      state.players.length,
-      "up",
-    );
-    state.phase = "betting1";
-    return state;
-  }
+
+  state.activePlayerIndex = handleOverflowIndex(
+    state.blindIndex.big,
+    1,
+    state.players.length,
+    "up"
+  );
+  state.phase = "betting1";
+  return state;
 };
+
 
 const dealFlop = (state) => {
   let animationDelay = 0;

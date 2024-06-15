@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -12,8 +12,65 @@ import { CgCardSpades } from "react-icons/cg";
 import { Button } from "../components/ui/button";
 import { GiCardJoker } from "react-icons/gi";
 import { TbClover } from "react-icons/tb";
+import { useRollups } from "../hooks/useRollups";
+import { ethers } from "ethers";
+import { useWallets, useSetChain } from "@web3-onboard/react";
 
 export default function Games() {
+  const [resultsArray, setResultsArray] = useState<any>([]);
+  const rollups = useRollups("0x70ac08179605AF2D9e75782b8DEcDD3c22aA4D0C");
+  const [wallets] = useWallets();
+  const connectedWallet = wallets ? wallets : null;
+
+  useEffect(() => {
+    if (!connectedWallet) {
+      console.log("No wallet connected");
+    } else {
+      console.log("Wallet connected: ", connectedWallet);
+    }
+  }, [connectedWallet]);
+
+  // Similar for chains
+  const setChain = useSetChain();
+
+  useEffect(() => {
+    if (connectedWallet) {
+      setChain({ chainId: "0x1" }).then((result) => {
+        if (!result.error) {
+          console.log("Chain set successfully");
+        } else {
+          console.log("Failed to set chain");
+        }
+      });
+    }
+  }, [connectedWallet]);
+
+  const addInput = async () => {
+    const payloadObj = {
+      method: "shambles",
+      from: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      amount: "0",
+    };
+    const payloadStr = JSON.stringify(payloadObj);
+    console.log("Payload to send:", payloadStr);
+
+    if (rollups) {
+      try {
+        let payload = ethers.utils.toUtf8Bytes(payloadStr);
+        await rollups.inputContract.addInput(
+          "0xab7528bb862fb57e8a2bcd567a2e929a0be56a5e",
+          payload
+        );
+        console.log("Input sent successfully");
+        setResultsArray(["resposta1", "resposta2", "resposta3"]);
+      } catch (e) {
+        console.error("Erro ao enviar input:", e);
+      }
+    } else {
+      console.log("Rollups contract not connected or input is empty.");
+    }
+  };
+
   return (
     <div className="text-center max-w-screen-xl mx-auto mb-10" id="games">
       <h2 className="text-3xl lg:text-4xl text-neutral-200 font-semibold drop-shadow-xl shadow-white p-10 md:pt-4 px-2">
@@ -92,6 +149,14 @@ export default function Games() {
               </Button>
             </Card>
           </Link>
+        ))}
+      </div>
+      <button onClick={addInput} className="text-white">
+        Send Payload
+      </button>
+      <div>
+        {resultsArray.map((item, index) => (
+          <p key={index}>{item}</p>
         ))}
       </div>
     </div>

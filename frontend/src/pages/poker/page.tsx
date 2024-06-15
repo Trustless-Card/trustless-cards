@@ -32,7 +32,11 @@ import Player from "../../components/players/player";
 import ShowdownPlayer from "../../components/players/showdownPlayer";
 import PokerCard from "../../components/cards/card";
 
-import { generateDeckOfCards, shuffle, dealPrivateCards } from "../../utils/cards";
+import {
+  generateDeckOfCards,
+  shuffle,
+  dealPrivateCards,
+} from "../../utils/cards";
 
 import { generateTable, beginNextRound, checkWin } from "../../utils/players";
 
@@ -366,13 +370,15 @@ class Poker extends Component {
   };
 
   handleNextRound = () => {
-    this.setState({ clearCards: true });
     const newState = beginNextRound(cloneDeep(this.state));
-    // Check win condition
+
+    // Verifique a condição de vitória
     if (checkWin(newState.players)) {
       this.setState({ winnerFound: true });
       return;
     }
+
+    // Atualize o estado e continue o jogo
     this.setState(newState, () => {
       if (
         this.state.players[this.state.activePlayerIndex].robot &&

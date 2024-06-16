@@ -14,6 +14,14 @@ import { FC } from "react";
 import { useConnectWallet, useSetChain } from "@web3-onboard/react";
 import configFile from "./config.json";
 
+import Header from "./components/header";
+import Intro from "./components/intro";
+import AboutHero from "./components/about/about";
+import Footer from "./components/footer/footer";
+import './App.css'
+
+
+
 const config: any = configFile;
 
 export const Network: FC = () => {
@@ -21,6 +29,7 @@ export const Network: FC = () => {
     const [{ chains, connectedChain, settingChain }, setChain] = useSetChain();
 
     return (
+		<>
         <div>
             {!wallet && <button
                 onClick={() =>
@@ -61,5 +70,10 @@ export const Network: FC = () => {
                 </div>
             )}
         </div>
+		  <Header />
+		  <Intro />
+		  <AboutHero />
+		  <Footer />
+		</>
     );
 };

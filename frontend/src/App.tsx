@@ -57,17 +57,8 @@ const App: FC = () => {
 						/>
 						<br /><br />
 					</div>
-					<h2>Inspect</h2>
-					<Inspect />
-					<h2>Input</h2>
 					<Input dappAddress={dappAddress} />
-					<h2>Reports</h2>
-					<Reports />
-					<h2>Notices</h2>
-					<Notices />
-					<h2>Vouchers</h2>
-					<Vouchers dappAddress={dappAddress} />
-				</GraphQLProvider>
+			</GraphQLProvider>
 			</div>
 		</>
     );

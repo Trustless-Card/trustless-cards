@@ -4,7 +4,7 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-} from "@/components/ui/card"; 
+} from "../ui/card"; 
 import GoldCard from "./goldCard";
 import MetaMask from "./metamask";
 

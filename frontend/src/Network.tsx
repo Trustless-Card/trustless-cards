@@ -18,6 +18,7 @@ import Header from "./components/header";
 import Intro from "./components/intro";
 import AboutHero from "./components/about/about";
 import Footer from "./components/footer/footer";
+import Games from "./components/games"
 import './App.css'
 
 
@@ -73,6 +74,7 @@ export const Network: FC = () => {
 		  <Header />
 		  <Intro />
 		  <AboutHero />
+		<Games />
 		  <Footer />
 		</>
     );

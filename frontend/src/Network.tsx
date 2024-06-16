@@ -5,8 +5,12 @@ import Header from "./components/header/header";
 import Intro from "./components/intro/intro";
 import AboutHero from "./components/about/about";
 import Footer from "./components/footer/footer";
-import Games from "./components/games";
-import "./App.css";
+import Games from "./components/games"
+import { Inspect } from "./Inspect";
+
+import './App.css'
+
+
 
 const config: any = configFile;
 
@@ -49,17 +53,13 @@ export const Network: FC = () => {
                 ))}
               </select>
             )}
-            <button onClick={() => disconnect(wallet)}>
-              Disconnect Wallet
-            </button>
-          </div>
-        )}
-      </div> */}
-      <Header />
-      <Intro />
-      <AboutHero />
-      <Games />
-      <Footer />
-    </>
-  );
+        </div>
+		  <Header />
+		  <Intro />
+		  <AboutHero />
+			<Inspect />
+		<Games />
+		  <Footer />
+		</>
+    );
 };

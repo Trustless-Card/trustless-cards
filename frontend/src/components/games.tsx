@@ -12,13 +12,13 @@ import { CgCardSpades } from "react-icons/cg";
 import { Button } from "../components/ui/button";
 import { GiCardJoker } from "react-icons/gi";
 import { TbClover } from "react-icons/tb";
-import { useRollups } from "../hooks/useRollups";
+//import { useRollups } from "../hooks/useRollups";
 import { ethers } from "ethers";
 import { useWallets, useSetChain } from "@web3-onboard/react";
 
 export default function Games() {
   const [resultsArray, setResultsArray] = useState<any>([]);
-  const rollups = useRollups("0x70ac08179605AF2D9e75782b8DEcDD3c22aA4D0C");
+  //const rollups = useRollups("0x70ac08179605AF2D9e75782b8DEcDD3c22aA4D0C");
   const [wallets] = useWallets();
   const connectedWallet = wallets ? wallets : null;
 

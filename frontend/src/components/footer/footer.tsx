@@ -1,6 +1,6 @@
 import "./footer.css";
 
-import logo from '/logo.png'
+//import logo from '/logo.png';
 
 export default function Footer() {
   return (
@@ -17,7 +17,6 @@ export default function Footer() {
             }}
           >
             <img
-              src={logo}
               alt="logo"
               width={100}
               height={100}

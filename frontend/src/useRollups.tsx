@@ -31,7 +31,7 @@ import {
     ERC1155SinglePortal__factory,
     ERC1155BatchPortal,
     ERC1155BatchPortal__factory
-} from "../generated/rollups";
+} from "./generated/rollups";
 import { ConnectedChain } from "@web3-onboard/core";
 
 import configFile from "./config.json";
@@ -57,9 +57,6 @@ export const useRollups = (dAddress: string): RollupsContracts | undefined => {
     const [{ connectedChain }] = useSetChain();
     const [connectedWallet] = useWallets();
     const [dappAddress] = useState<string>(dAddress);
-
-      console.log("Connected wallet:", connectedWallet); // Verifica o estado da carteira conectada
-  console.log("Connected chain:", connectedChain);   // Verifica a cadeia conectada
 
     useEffect(() => {
         const connect = async (

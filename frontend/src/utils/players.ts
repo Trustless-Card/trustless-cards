@@ -23,11 +23,11 @@ const generateTable = async (): Promise<any> => {
     "/assets/avatar5.jpeg",
   ];
 
-  const bots = ["paraiba", "noyma", "preguisotto", "mister"];
+  const bots = ["c0utin", "noyma.eth", "joaosotto", "misterclayt0n"];
   const users = [
     {
       id: uuid(),
-      name: "mama cartesi",
+      name: "cartesi",
       avatarURL: avatarURLs[0],
       cards: [],
       showDownHand: {

@@ -19,6 +19,7 @@ import Intro from "./components/intro/intro";
 import AboutHero from "./components/about/about";
 import Footer from "./components/footer/footer";
 import Games from "./components/games"
+import RandomWords from "./components/contract/RandomWords";
 import { Inspect } from "./Inspect";
 
 import './App.css'
@@ -77,6 +78,7 @@ export const Network: FC = () => {
 		    <Intro />
 		    <AboutHero />
 		    <Games />
+			<RandomWords />
 		    <Footer />
 		</>
     );

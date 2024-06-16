@@ -71,10 +71,9 @@ const App: FC = () => {
             <Games />
           ) : (
             <div className="flex flex-wrap gap-4">
-              {/* <Input dappAddress={dappAddress} />
+               <Input dappAddress={dappAddress} />
               <Input dappAddress={dappAddress} />
-              <Input dappAddress={dappAddress} /> */}
-			  <RandomWords />
+              <Input dappAddress={dappAddress} /> 
             </div>
           )}
         </GraphQLProvider>

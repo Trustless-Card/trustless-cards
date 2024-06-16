@@ -58,7 +58,7 @@ func (a *TrustlessCards) Advance(
 		a.Balances[fixedERC20].Add(a.Balances[fixedERC20], amount)
 		fmt.Printf("Deposit successful: from=%s, to=%s, value=%s ETH\n", input.From.Hex(), fixedERC20.Hex(), amount.String())
 
-		deck := shuffleDeck()
+		deck := shuffleDeck(amount)
 		env.Notice([]byte(fmt.Sprintf("meu deck %v", deck)))
 
 	case "withdraw":
@@ -77,8 +77,8 @@ func (a *TrustlessCards) Advance(
 		env.Notice([]byte(fmt.Sprintf("withdrawn %v", amount)))
 
 	case "shambles":
-		// Executar a função de embaralhar o deck
-		deck := shuffleDeck()
+		// Executar a função de embaralhar o deck com base no amount como seed
+		deck := shuffleDeck(amount)
 		env.Notice([]byte(fmt.Sprintf("meu deck %v", deck)))
 
 	default:
@@ -99,10 +99,11 @@ func (a *TrustlessCards) Inspect(env rollmelette.EnvInspector, payload []byte) e
 	return nil
 }
 
-// shuffleDeck embaralha o baralho de cartas
-func shuffleDeck() [52]int {
-	// Criando o baralho inicial
-	seed := 12012
+// shuffleDeck embaralha o baralho de cartas com base no amount como seed
+func shuffleDeck(amount *big.Int) [52]int {
+	// Convertendo amount para um valor inteiro para usar como seed
+	seed := int(amount.Int64())
+
 	deck := [52]int{}
 	for i := 0; i < 52; i++ {
 		deck[i] = i
@@ -110,8 +111,7 @@ func shuffleDeck() [52]int {
 
 	// Embaralhando o baralho usando o algoritmo Fisher-Yates
 	rand := func(n int) int {
-		// Esta função gera um número pseudoaleatório determinístico com base no seed
-		return int((seed + int(n)*123456789) % 52)
+		return (seed + n*123456789) % 52
 	}
 
 	for i := 51; i > 0; i-- {

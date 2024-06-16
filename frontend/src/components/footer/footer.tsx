@@ -1,6 +1,5 @@
 import "./footer.css";
-
-//import logo from '/logo.png';
+import logo from '../../assets/logo.png';
 
 export default function Footer() {
   return (
@@ -17,13 +16,15 @@ export default function Footer() {
             }}
           >
             <img
+              src={logo}
               alt="logo"
-              width={100}
-              height={100}
-              className="hover:cursor-pointer"
+              width={25}
+              height={25}
+              className="hover:cursor-pointer w-20 h-20"
             />
-          </a>
+          </a>  
         </div>
+        <br></br>
         <p className="text-xs text-neutral-400 md:text-base p-2 text-center">
           ♧ Copyright @ 2024 TrustlessCards ♧
         </p>

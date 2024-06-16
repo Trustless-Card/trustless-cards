@@ -1,10 +1,10 @@
-'use client';
-
 import React from "react";
-import { FlipWords } from "@/components/ui/flip-words";
+import { FlipWords } from "../ui/flip-words";
 
-export default function HeroSection() {
-  const words = ["Wins ", "Money ", "Trust "];
+interface HeroSectionProps {}
+
+const HeroSection: React.FC<HeroSectionProps> = () => {
+  const words: string[] = ["Wins ", "Money ", "Trust "];
 
   return (
     <div className="h-fit md:mb-12 mb-8 pt-20 relative mx-auto max-w-screen-2xl">
@@ -47,4 +47,6 @@ export default function HeroSection() {
       </div>
     </div>
   );
-}
+};
+
+export default HeroSection;

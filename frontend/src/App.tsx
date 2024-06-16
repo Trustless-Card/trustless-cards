@@ -23,6 +23,7 @@ import { Network } from "./Network";
 import { Vouchers } from "./Vouchers";
 import { Reports } from "./Reports";
 import configFile from "./config.json";
+import "./App.css"
 
 
 const config: any = configFile;
@@ -42,11 +43,13 @@ init({
 });
 
 const App: FC = () => {
-    const [dappAddress, setDappAddress] = useState<string>("0x70ac08179605AF2D9e75782b8DEcDD3c22aA4D0C");
+    const [dappAddress, setDappAddress] = useState<string>(
+      "0xab7528bb862fb57e8a2bcd567a2e929a0be56a5e"
+    );
 
     return (
 		<>
-			<div className="bg-white">
+			<div>
 				<Network />
 				<GraphQLProvider>
 					<div className='bg-white'>

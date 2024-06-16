@@ -1,8 +1,11 @@
+// Input.tsx
+
 import React, { useState } from "react";
 import { ethers } from "ethers";
 import { useRollups } from "./useRollups";
 import { useWallets } from "@web3-onboard/react";
-import { Button } from "./components/ui/button"; // Certifique-se de importar corretamente o componente Button
+import { Button } from "./components/ui/button";
+import useRandomWordFromContract from "./components/contract/RandomWords";
 
 interface IInputProps {
     dappAddress: string;
@@ -11,9 +14,11 @@ interface IInputProps {
 export const Input: React.FC<IInputProps> = (props) => {
     const rollups = useRollups(props.dappAddress);
     const [connectedWallet] = useWallets();
-    
+
     const [input, setInput] = useState<string>("");
     const [hexInput, setHexInput] = useState<boolean>(false);
+
+    const fetchRandomWordFromContract = useRandomWordFromContract();
 
     const sendAddress = async (str: string) => {
         if (rollups) {
@@ -25,18 +30,25 @@ export const Input: React.FC<IInputProps> = (props) => {
         }
     };
 
-    const addInput = async (str: string) => {
-        if (rollups) {
-            try {
-                let payload = ethers.utils.toUtf8Bytes(str);
+    const addInput = async () => {
+        try {
+            const randomWord = await fetchRandomWordFromContract();
+            const mockJson = JSON.stringify({
+                method: "shambles",
+                from: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+                amount: randomWord
+            });
+
+            if (rollups) {
+                let payload = ethers.utils.toUtf8Bytes(mockJson);
                 if (hexInput) {
-                    payload = ethers.utils.arrayify(str);
+                    payload = ethers.utils.arrayify(mockJson);
                 }
                 await rollups.inputContract.addInput(props.dappAddress, payload);
-                console.log("Input adicionado:", str); // Debug para verificar se o input está sendo passado corretamente
-            } catch (e) {
-                console.log(`${e}`);
+                console.log("Input adicionado:", mockJson); // Debug para verificar se o input está sendo passado corretamente
             }
+        } catch (e) {
+            console.log(`${e}`);
         }
     };
 
@@ -80,7 +92,7 @@ export const Input: React.FC<IInputProps> = (props) => {
                         <Button
                             variant="default"
                             className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-black transition duration-200 ease-in-out hover:scale-110 active:scale-100 hover:bg-black"
-                            onClick={() => addInput(input)}
+                            onClick={addInput}
                             disabled={!rollups}
                         >
                             <p className="text-2xl bg-gradient-to-r from-[#9a5517] via-[#ffd98e] to-[#873a1a] bg-clip-text text-transparent">

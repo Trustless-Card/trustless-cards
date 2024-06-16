@@ -19,6 +19,7 @@ import Intro from "./components/intro/intro";
 import AboutHero from "./components/about/about";
 import Footer from "./components/footer/footer";
 import Games from "./components/games"
+import RandomWords from "./components/contract/RandomWords";
 import { Inspect } from "./Inspect";
 
 import './App.css'
@@ -28,12 +29,12 @@ import './App.css'
 const config: any = configFile;
 
 export const Network: FC = () => {
-    const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
-    const [{ chains, connectedChain, settingChain }, setChain] = useSetChain();
+    // const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+    // const [{ chains, connectedChain, settingChain }, setChain] = useSetChain();
 
     return (
 		<>
-        <div>
+        {/* <div>
             {!wallet && <button
                 onClick={() =>
                     connect()
@@ -70,15 +71,15 @@ export const Network: FC = () => {
                     <button onClick={() => disconnect(wallet)}>
                         Disconnect Wallet
                     </button>
-                </div>
-            )}
-        </div>
-		  <Header />
-		  <Intro />
-		  <AboutHero />
-			<Inspect />
-		<Games />
-		  <Footer />
+                </div> */}
+            {/* )}
+        </div> */}
+		    <Header />
+		    <Intro />
+		    <AboutHero />
+		    <Games />
+			<RandomWords />
+		    <Footer />
 		</>
     );
 };

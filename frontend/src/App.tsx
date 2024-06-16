@@ -1,19 +1,8 @@
-// Copyright 2022 Cartesi Pte. Ltd.
+// App.tsx
 
-// Licensed under the Apache License, Version 2.0 (the "License"); you may not
-// use this file except in compliance with the License. You may obtain a copy
-// of the license at http://www.apache.org/licenses/LICENSE-2.0
-
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-// WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-// License for the specific language governing permissions and limitations
-// under the License.
-
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
 import injectedModule from "@web3-onboard/injected-wallets";
-import { init } from "@web3-onboard/react";
-import { useState } from "react";
+import { init, useConnectWallet, useSetChain } from "@web3-onboard/react";
 
 import { GraphQLProvider } from "./GraphQL";
 import { Notices } from "./Notices";
@@ -22,49 +11,75 @@ import { Inspect } from "./Inspect";
 import { Network } from "./Network";
 import { Vouchers } from "./Vouchers";
 import { Reports } from "./Reports";
+import Games from "./components/games";
 import configFile from "./config.json";
-import "./App.css"
-
+import "./App.css";
+import RandomWords from "../src/components/contract/RandomWords"
 
 const config: any = configFile;
 
 const injected: any = injectedModule();
 init({
-    wallets: [injected],
-    chains: Object.entries(config).map(([k, v]: [string, any], i) => ({id: k, token: v.token, label: v.label, rpcUrl: v.rpcUrl})),
-    appMetadata: {
-        name: "Cartesi Rollups Test DApp",
-        icon: "<svg><svg/>",
-        description: "Demo app for Cartesi Rollups",
-        recommendedInjectedWallets: [
-            { name: "MetaMask", url: "https://metamask.io" },
-        ],
-    },
+  wallets: [injected],
+  chains: Object.entries(config).map(([k, v]: [string, any], i) => ({
+    id: k,
+    token: v.token,
+    label: v.label,
+    rpcUrl: v.rpcUrl,
+  })),
+  appMetadata: {
+    name: "Cartesi Rollups Test DApp",
+    icon: "<svg><svg/>",
+    description: "Demo app for Cartesi Rollups",
+    recommendedInjectedWallets: [
+      { name: "MetaMask", url: "https://metamask.io" },
+    ],
+  },
 });
 
 const App: FC = () => {
-    const [dappAddress, setDappAddress] = useState<string>(
-      "0xab7528bb862fb57e8a2bcd567a2e929a0be56a5e"
-    );
+  const [dappAddress, setDappAddress] = useState<string>(
+    "0xab7528bb862fb57e8a2bcd567a2e929a0be56a5e"
+  );
 
-    return (
-		<>
-			<div>
-				<Network />
-				<GraphQLProvider>
-					<div className='bg-white'>
-						Dapp Address: <input
-							type="text"
-							value={dappAddress}
-							onChange={(e) => setDappAddress(e.target.value)}
-						/>
-						<br /><br />
-					</div>
-					<Input dappAddress={dappAddress} />
-			</GraphQLProvider>
-			</div>
-		</>
-    );
+  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+  const [isWalletConnected, setIsWalletConnected] = useState(false);
+
+  useEffect(() => {
+    if (wallet) {
+      setIsWalletConnected(true);
+    } else {
+      setIsWalletConnected(false);
+    }
+  }, [wallet]);
+
+  return (
+    <>
+      <div>
+        <Network />
+        <GraphQLProvider>
+          <div className="bg-black p-4 rounded-lg text-white mb-4">
+            Dapp Address:
+            <input
+              type="text"
+              value={dappAddress}
+              onChange={(e) => setDappAddress(e.target.value)}
+              className="bg-gray-800 text-white border border-gray-600 rounded p-2 ml-2"
+            />
+          </div>
+          {!isWalletConnected ? (
+            <Games />
+          ) : (
+            <div className="flex flex-wrap gap-4">
+               <Input dappAddress={dappAddress} />
+              <Input dappAddress={dappAddress} />
+              <Input dappAddress={dappAddress} /> 
+            </div>
+          )}
+        </GraphQLProvider>
+      </div>
+    </>
+  );
 };
 
 export default App;

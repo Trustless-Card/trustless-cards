@@ -58,6 +58,28 @@ import {
 } from "../../utils/ui";
 
 import { cloneDeep } from "lodash";
+import { ApolloClient, InMemoryCache, gql, useQuery } from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: "http://localhost:8080/graphql",
+  cache: new InMemoryCache(),
+});
+
+const GET_NOTICES = gql`
+  query notices {
+    notices {
+      edges {
+        node {
+          index
+          input {
+            index
+          }
+          payload
+        }
+      }
+    }
+  }
+`;
 
 class Poker extends Component {
   state = {
@@ -70,10 +92,10 @@ class Poker extends Component {
     activePlayerIndex: 0,
     dealerIndex: null,
     blindIndex: null,
-    deck: null,
+    deck: [],
     communityCards: [],
     pot: 0,
-    highBet: null,
+    highBet: null,// Convert the string to an array of numbers
     betInputValue: null,
     sidePots: [],
     minBet: 20,
@@ -89,6 +111,7 @@ class Poker extends Component {
       4: { isAnimating: false, content: null },
       5: { isAnimating: false, content: null },
     },
+    noticeValue: "",
   };
 
   cardAnimationDelay = 0;
@@ -102,8 +125,13 @@ class Poker extends Component {
     const playersBoughtIn = anteUpBlinds(
       players,
       blindIndicies,
-      this.state.minBet,
+      this.state.minBet
     );
+
+    const deck = await this.fetchNotices(); 
+    if (!Array.isArray(deck)) {
+      throw new Error("Deck is not an array");
+    }
 
     const imageLoaderRequest = new XMLHttpRequest();
 
@@ -156,7 +184,7 @@ class Poker extends Component {
         big: blindIndicies.bigBlindIndex,
         small: blindIndicies.smallBlindIndex,
       },
-      deck: shuffle(generateDeckOfCards()),
+      deck,
       pot: 0,
       highBet: prevState.minBet,
       betInputValue: prevState.minBet,
@@ -164,6 +192,30 @@ class Poker extends Component {
     }));
     this.runGameLoop();
   }
+
+  fetchNotices = async () => {
+    try {
+      const { data } = await client.query({
+        query: GET_NOTICES,
+      });
+      console.log("Notices fetched:", data.notices.edges);
+      const payloadHex = data.notices.edges[0].node.payload;
+      const noticeValues = this.hexToDeck(payloadHex);
+
+      const deck = shuffle(noticeValues);
+      return deck
+    } catch (e) {
+      console.error("Failed to fetch notices:", e);
+    }
+  };
+
+ hexToDeck = (hex) => {
+  let deck = [];
+  for (let i = 0; i < hex.length; i += 2) {
+    deck.push(parseInt(hex.substr(i, 2), 16));
+  }
+  return deck;
+};
 
   handleBetInputChange = (val, min, max) => {
     if (val === "") val = min;

@@ -46,6 +46,21 @@ const App: FC = () => {
       <div>
         <Network />
         <GraphQLProvider>
+          <div className="bg-black p-4 rounded-lg text-white mb-4">
+            Dapp Address:
+            <input
+              type="text"
+              value={dappAddress}
+              onChange={(e) => setDappAddress(e.target.value)}
+              className="bg-gray-800 text-white border border-gray-600 rounded p-2 ml-2"
+            />
+          </div>
+          {!isWalletConnected ? (
+            <Games />
+          ) : (
+            <div className="flex flex-wrap gap-4">
+            </div>
+          )}
         </GraphQLProvider>
       </div>
     </>

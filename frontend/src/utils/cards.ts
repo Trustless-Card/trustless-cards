@@ -59,12 +59,21 @@ const generateDeckOfCards = () => {
   return deck;
 };
 
+const convertStringToArray = (deckString: string): number[] => {
+  const arrayString = deckString.match(/\[(.*?)\]/)?.[1];
+
+  if (!arrayString) {
+    throw new Error("Invalid deck string format");
+  }
+
+  return arrayString.split(' ').map(Number);
+};
+
 const shuffle = (deck) => {
   let shuffledDeck = new Array(totalNumCards);
   let filledSlots = [];
   for (let i = 0; i < totalNumCards; i++) {
     if (i === 51) {
-      // Fill last undefined slot when only 1 card left to shuffle
       const lastSlot = shuffledDeck.findIndex((el) => typeof el == "undefined");
       shuffledDeck[lastSlot] = deck[i];
       filledSlots.push(lastSlot);
@@ -124,11 +133,16 @@ const dealPrivateCards = (state) => {
       if (player.cards.length < 2) {
         const { mutableDeckCopy, chosenCards } = popCards(state.deck, 1);
 
-        chosenCards.animationDelay = animationDelay;
-        animationDelay += 250;
+if (typeof chosenCards === 'object' && chosenCards !== null) {
+  chosenCards.animationDelay = animationDelay;
+  animationDelay += 250;
 
-        state.players[index].cards.push(chosenCards);
-        state.deck = mutableDeckCopy;
+  state.players[index].cards.push(chosenCards);
+} else {
+  console.error('Invalid card type:', chosenCards);
+}
+
+state.deck = mutableDeckCopy;
       }
     });
   }

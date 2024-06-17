@@ -10,7 +10,7 @@ const useRandomWordFromContract = () => {
   const initializeContract = async (): Promise<ethers.Contract | null> => {
     try {
       if (typeof window.ethereum !== "undefined") {
-        const contractAddress = "0x84eA74d481Ee0A5332c457a4d796187F6Ba67fEB";
+        const contractAddress = "0x82e01223d51Eb87e16A03E24687EDF0F294da6f1";
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         const contractInstance = new ethers.Contract(

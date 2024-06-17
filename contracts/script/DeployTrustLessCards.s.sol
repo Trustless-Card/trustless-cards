@@ -7,9 +7,10 @@ import {Script, console} from "forge-std/Script.sol";
 
 contract DeployContracts is Script {
     function run() external {
-        bytes32 _salt = bytes32(abi.encode(1596));
         vm.startBroadcast();
-        VRFCoordinatorV2Mock vrf = VRFCoordinatorV2Mock(0xBb61aCa2d955CBAB560f18aCF11f320830161193);
+		// change this before deploy make trustlesscards
+        VRFCoordinatorV2Mock vrf = VRFCoordinatorV2Mock(0xDf62B28bd57e12Ff7C47523688099937a0CdECb2);
+	
 
         TrustlessCards trustlessCardsContract = new TrustlessCards(1, address(vrf), 0xd89b2bf150e3b9e13446986e571fb9cab24b13cea0a43ea20a6049a85cc807cc);
 

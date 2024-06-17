@@ -1,4 +1,3 @@
-import React from "react";
 import logo from "../../assets/logo.png";
 import { useConnectWallet, useSetChain } from "@web3-onboard/react";
 

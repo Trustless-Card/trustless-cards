@@ -11,7 +11,7 @@ import MetaMask from "./metamask";
 export default function AboutHero() {
   return (
     <>
-      <div className="flex flex-col space-y-4">
+      <div className="flex flex-col space-y-4" id="about">
         <h2 className="text-center text-4xl font-semibold text-neutral-200">
           ♦ What is Trustless Cards?
         </h2>

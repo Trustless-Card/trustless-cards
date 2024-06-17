@@ -11,74 +11,23 @@
 // under the License.
 
 import { FC } from "react";
-import { useConnectWallet, useSetChain } from "@web3-onboard/react";
-import configFile from "./config.json";
 
 import Header from "./components/header/header";
 import Intro from "./components/intro/intro";
 import AboutHero from "./components/about/about";
 import Footer from "./components/footer/footer";
 import Games from "./components/games"
-import RandomWords from "./components/contract/RandomWords";
-import { Inspect } from "./Inspect";
 
 import './App.css'
 
-
-
-const config: any = configFile;
-
 export const Network: FC = () => {
-    // const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
-    // const [{ chains, connectedChain, settingChain }, setChain] = useSetChain();
 
     return (
 		<>
-        {/* <div>
-            {!wallet && <button
-                onClick={() =>
-                    connect()
-                }
-            >
-                {connecting ? "connecting" : "connect"}
-            </button>}
-            {wallet && (
-                <div>
-                    <label>Switch Chain</label>
-                    {settingChain ? (
-                        <span>Switching chain...</span>
-                    ) : (
-                        <select
-                            onChange={({ target: { value } }) => {
-                                if (config[value] !== undefined) {
-                                    setChain({ chainId: value })
-                                } else {
-                                    alert("No deploy on this chain")
-                                }
-                                }
-                            }
-                            value={connectedChain?.id}
-                        >
-                            {chains.map(({ id, label }) => {
-                                return (
-                                    <option key={id} value={id}>
-                                        {label}
-                                    </option>
-                                );
-                            })}
-                        </select>
-                    )}
-                    <button onClick={() => disconnect(wallet)}>
-                        Disconnect Wallet
-                    </button>
-                </div> */}
-            {/* )}
-        </div> */}
 		    <Header />
 		    <Intro />
 		    <AboutHero />
 		    <Games />
-			<RandomWords />
 		    <Footer />
 		</>
     );

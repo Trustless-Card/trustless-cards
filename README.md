@@ -8,9 +8,9 @@
 
 # Team: 
 
-Hugo Noyma: https://www.linkedin.com/in/hugo-noyma/
-Rafael Coutinho: https://www.linkedin.com/in/rafael-coutinho2004/
-Davi Arantes: https://www.linkedin.com/in/davi-ferreira-arantes/
+Hugo Noyma: https://www.linkedin.com/in/hugo-noyma/ <br>
+Rafael Coutinho: https://www.linkedin.com/in/rafael-coutinho2004/ <br>
+Davi Arantes: https://www.linkedin.com/in/davi-ferreira-arantes/ <br>
 João Pedro Sotto: https://www.linkedin.com/in/jo%C3%A3o-pedro-sotto-maior/
 
 ### Start Here!

@@ -1,18 +1,27 @@
+// App.tsx
+
 import { FC, useState, useEffect } from "react";
 import injectedModule from "@web3-onboard/injected-wallets";
-import { init, useConnectWallet } from "@web3-onboard/react";
+import { init, useConnectWallet, useSetChain } from "@web3-onboard/react";
 
 import { GraphQLProvider } from "./GraphQL";
+import { Notices } from "./Notices";
+import { Input } from "./Input";
+import { Inspect } from "./Inspect";
 import { Network } from "./Network";
+import { Vouchers } from "./Vouchers";
+import { Reports } from "./Reports";
+import Games from "./components/games";
 import configFile from "./config.json";
 import "./App.css";
+import RandomWords from "../src/components/contract/RandomWords"
 
 const config: any = configFile;
 
 const injected: any = injectedModule();
 init({
   wallets: [injected],
-  chains: Object.entries(config).map(([k, v]: [string, any]) => ({
+  chains: Object.entries(config).map(([k, v]: [string, any], i) => ({
     id: k,
     token: v.token,
     label: v.label,
@@ -29,8 +38,11 @@ init({
 });
 
 const App: FC = () => {
+  const [dappAddress, setDappAddress] = useState<string>(
+    "0xab7528bb862fb57e8a2bcd567a2e929a0be56a5e"
+  );
 
-  const [{ wallet }] = useConnectWallet();
+  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
   const [isWalletConnected, setIsWalletConnected] = useState(false);
 
   useEffect(() => {
@@ -59,6 +71,9 @@ const App: FC = () => {
             <Games />
           ) : (
             <div className="flex flex-wrap gap-4">
+               <Input dappAddress={dappAddress} />
+              <Input dappAddress={dappAddress} />
+              <Input dappAddress={dappAddress} /> 
             </div>
           )}
         </GraphQLProvider>

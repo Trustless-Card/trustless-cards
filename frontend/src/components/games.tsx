@@ -1,8 +1,22 @@
+import { useState } from "react";
 import {ethers} from "ethers";
 import { Input } from "../Input";
 import useRandomWordFromContract from "../components/contract/RandomWords";
 import { useRollups } from "../useRollups";
 import { ApolloClient, InMemoryCache, gql, useQuery } from "@apollo/client";
+import { CgCardSpades } from "react-icons/cg";
+import { GiCardJoker } from "react-icons/gi";
+import { TbClover } from "react-icons/tb";
+import { Link } from "react-router-dom";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import { Button } from "./ui/button";
 
 const client = new ApolloClient({
   uri: "http://localhost:8080/graphql",

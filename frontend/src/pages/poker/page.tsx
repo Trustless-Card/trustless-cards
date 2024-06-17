@@ -34,8 +34,8 @@ import PokerCard from "../../components/cards/card";
 
 import {
   generateDeckOfCards,
-  shuffle,
   dealPrivateCards,
+  inputCards,
 } from "../../utils/cards";
 
 import { generateTable, beginNextRound, checkWin } from "../../utils/players";
@@ -95,7 +95,7 @@ class Poker extends Component {
     deck: [],
     communityCards: [],
     pot: 0,
-    highBet: null,// Convert the string to an array of numbers
+    highBet: null, // Convert the string to an array of numbers
     betInputValue: null,
     sidePots: [],
     minBet: 20,
@@ -128,7 +128,7 @@ class Poker extends Component {
       this.state.minBet
     );
 
-    const deck = await this.fetchNotices(); 
+    const deck = await this.fetchNotices();
     if (!Array.isArray(deck)) {
       throw new Error("Deck is not an array");
     }
@@ -184,7 +184,7 @@ class Poker extends Component {
         big: blindIndicies.bigBlindIndex,
         small: blindIndicies.smallBlindIndex,
       },
-      deck,
+      deck: inputCards(generateDeckOfCards()),
       pot: 0,
       highBet: prevState.minBet,
       betInputValue: prevState.minBet,
@@ -201,21 +201,21 @@ class Poker extends Component {
       console.log("Notices fetched:", data.notices.edges);
       const payloadHex = data.notices.edges[0].node.payload;
       const noticeValues = this.hexToDeck(payloadHex);
-
-      const deck = shuffle(noticeValues);
-      return deck
+      console.log("shuffled deck by cartesi:", noticeValues);
+      const deck = inputCards(generateDeckOfCards());
+      return deck;
     } catch (e) {
       console.error("Failed to fetch notices:", e);
     }
   };
 
- hexToDeck = (hex) => {
-  let deck = [];
-  for (let i = 0; i < hex.length; i += 2) {
-    deck.push(parseInt(hex.substr(i, 2), 16));
-  }
-  return deck;
-};
+  hexToDeck = (hex) => {
+    let deck = [];
+    for (let i = 0; i < hex.length; i += 2) {
+      deck.push(parseInt(hex.substr(i, 2), 16));
+    }
+    return deck;
+  };
 
   handleBetInputChange = (val, min, max) => {
     if (val === "") val = min;
@@ -235,7 +235,7 @@ class Poker extends Component {
     const newAnimationSwitchboard = Object.assign(
       {},
       this.state.playerAnimationSwitchboard,
-      { [index]: { isAnimating: true, content } },
+      { [index]: { isAnimating: true, content } }
     );
     this.setState({ playerAnimationSwitchboard: newAnimationSwitchboard });
   };
@@ -245,7 +245,7 @@ class Poker extends Component {
     const newAnimationSwitchboard = Object.assign(
       {},
       this.state.playerAnimationSwitchboard,
-      { [index]: { isAnimating: false, content: persistContent } },
+      { [index]: { isAnimating: false, content: persistContent } }
     );
     this.setState({ playerAnimationSwitchboard: newAnimationSwitchboard });
   };
@@ -255,13 +255,19 @@ class Poker extends Component {
     const { activePlayerIndex } = appState;
     this.pushAnimationState(
       activePlayerIndex,
-      `${renderActionButtonText(this.state.highBet, this.state.betInputValue, this.state.players[this.state.activePlayerIndex])} ${bet > this.state.players[this.state.activePlayerIndex].bet ? bet : ""}`,
+      `${renderActionButtonText(
+        this.state.highBet,
+        this.state.betInputValue,
+        this.state.players[this.state.activePlayerIndex]
+      )} ${
+        bet > this.state.players[this.state.activePlayerIndex].bet ? bet : ""
+      }`
     );
     const newState = handleBet(
       cloneDeep(appState),
       parseInt(bet, 10),
       parseInt(min, 10),
-      parseInt(max, 10),
+      parseInt(max, 10)
     );
     this.setState(newState, () => {
       if (
@@ -308,7 +314,7 @@ class Poker extends Component {
             this.handleAI();
           }, 1200);
         }
-      },
+      }
     );
   };
 
@@ -337,7 +343,7 @@ class Poker extends Component {
           phase={phase}
           playerAnimationSwitchboard={playerAnimationSwitchboard}
           endTransition={this.popAnimationState}
-        />,
+        />
       );
       return result;
     }, []);
@@ -377,7 +383,7 @@ class Poker extends Component {
   renderRankWinner = (player) => {
     const { name, bestHand, handRank } = player;
     const playerStateData = this.state.players.find(
-      (statePlayer) => statePlayer.name === name,
+      (statePlayer) => statePlayer.name === name
     );
     return (
       <div className="showdown-player--entity" key={name}>
@@ -404,7 +410,7 @@ class Poker extends Component {
         <div className="showdown--handrank">{handRank}</div>
         {renderNetPlayerEarnings(
           playerStateData.roundEndChips,
-          playerStateData.roundStartChips,
+          playerStateData.roundStartChips
         )}
       </div>
     );
@@ -447,7 +453,7 @@ class Poker extends Component {
     const min = determineMinBet(
       highBet,
       players[activePlayerIndex].chips,
-      players[activePlayerIndex].bet,
+      players[activePlayerIndex].bet
     );
     const max =
       players[activePlayerIndex].chips + players[activePlayerIndex].bet;
@@ -461,7 +467,7 @@ class Poker extends Component {
           {renderActionButtonText(
             highBet,
             betInputValue,
-            players[activePlayerIndex],
+            players[activePlayerIndex]
           )}
         </Button>
         <Button
@@ -526,7 +532,7 @@ class Poker extends Component {
                 players,
                 activePlayerIndex,
                 phase,
-                this.handleBetInputChange,
+                this.handleBetInputChange
               )}
           </div>
         </div>
@@ -626,3 +632,4 @@ class Poker extends Component {
 }
 
 export default Poker;
+

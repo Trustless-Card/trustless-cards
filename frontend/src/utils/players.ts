@@ -9,8 +9,8 @@ import {
   dealMissingCommunityCards,
   showDown,
   generateDeckOfCards,
-  shuffle,
   dealPrivateCards,
+  inputCards,
 } from "./cards";
 
 // Function to generate the table and initialize players
@@ -284,8 +284,7 @@ const beginNextRound = (state) => {
   state.communityCards = [];
   state.sidePots = [];
   state.playerHierarchy = [];
-  state.showDownMessages = [];
-  state.deck = shuffle(generateDeckOfCards());
+  state.deck = inputCards(generateDeckOfCards());
   state.highBet = 20;
   state.betInputValue = 20;
   state.minBet = 20; // Valor inicial da aposta mínima

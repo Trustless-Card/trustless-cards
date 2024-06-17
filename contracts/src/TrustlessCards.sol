@@ -16,15 +16,15 @@ import {VRFConsumerBaseV2} from "../lib/chainlink/contracts/src/v0.8/vrf/VRFCons
  * @notice A contract that gets random values from Chainlink VRF V2
  */
 contract TrustlessCards is VRFConsumerBaseV2 {
-    VRFCoordinatorV2Interface immutable COORDINATOR;
+    VRFCoordinatorV2Interface COORDINATOR;
 
     // Your subscription ID.
-    uint64 immutable s_subscriptionId;
+    uint64 s_subscriptionId;
 
     // The gas lane to use, which specifies the maximum gas price to bump to.
     // For a list of available gas lanes on each network,
     // see https://docs.chain.link/docs/vrf-contracts/#configurations
-    bytes32 immutable s_keyHash;
+    bytes32 s_keyHash;
 
     // Depends on the number of requested values that you want sent to the
     // fulfillRandomWords() function. Storing each word costs about 20,000 gas,
@@ -69,7 +69,7 @@ contract TrustlessCards is VRFConsumerBaseV2 {
      * @notice Requests randomness
      * Assumes the subscription is funded sufficiently; "Words" refers to unit of data in Computer Science
      */
-    function requestRandomWords() external onlyOwner {
+    function requestRandomWords() public onlyOwner {
         // Will revert if subscription is not set and funded.
         s_requestId = COORDINATOR.requestRandomWords(
             s_keyHash,
